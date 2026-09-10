@@ -1,6 +1,6 @@
 # Working preferences
 
-- Scope currently stops at SPEC.md Phase 0. Read docs/spikes/0001-foundation.md before continuing. Do not begin Phase 1 until the user has discussed the findings.
+- Current authorized scope: SPEC.md Draft 0.3, Phase 1 only. Implement read-only orientation, review inspection, and local state. Do not begin Phase 2 or its new spikes. Phase 0 compatibility code is provisional evidence, not product architecture.
 - Codex acts as project manager and delegates substantial work to the logged-in Claude CLI to conserve the user's limited Codex quota.
 - User's model preference: Fable for hard tasks, Opus for less hard tasks, then Sonnet. Avoid Haiku except for trivial tasks.
 - For Claude batch runs, explicitly choose effort (usually `--effort medium`) and ALWAYS pass `--disallowedTools "Agent"` to prevent expensive nested agents. Pass bounded prompts via stdin. Restrict permissions/tools to the task.
