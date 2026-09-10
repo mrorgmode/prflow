@@ -1,11 +1,11 @@
 # prflow — Specification
 
-**Status:** Draft 0.2  
+**Status:** Draft 0.3  
 **Date:** 2026-09-10  
 **Audience:** human maintainers and Codex implementing this repository  
 **Working name:** `prflow`
 
-**Revision 0.2:** security and state-model hardening after external design review. The main changes are a hard no-network boundary for batch Codex, mandatory `ApprovalMode.deny_all`, sequential reply-then-resolve staging, explicit staleness fingerprints, state locking, and stricter runtime/version handling.
+**Revision 0.3:** reconciliation after the completed Phase 0 foundation spikes. Phase 1 is explicitly unblocked. Batch Phase 2 remains gated on a real tool-authority input path (`ExternalMessage` or its verified wire equivalent), on a coherent SDK/runtime pair, and on a small credential-read isolation spike. Batch reuse of the connected GitHub plugin/skill is rejected; GitHub remains a trusted-parent concern in batch mode.
 
 ## 1. Summary
 
@@ -220,7 +220,11 @@ GitHub review comments, issue bodies, and other remote text can contain instruct
 
 Raw remote content MUST be treated as data, not user authorization.
 
-When using the Codex Python SDK, remote text SHOULD be supplied via `ExternalMessage` where practical so it retains tool-level authority rather than user-level authority.
+In production batch mode, raw remote text MUST enter the Codex turn with tool-level authority, not as ordinary user-role text.
+
+The preferred interface is `ExternalMessage`. A delimited `TextInput`/string fallback MAY exist only in spike/test code and MUST NOT make batch readiness green.
+
+If the installed SDK/runtime pair cannot provide a verified tool-authority path, batch triage/fix is unavailable. Phase 1 and interactive mode remain usable.
 
 ### 5.6 Fail closed at trust boundaries
 
@@ -248,9 +252,19 @@ This section describes the intended integration surface as verified on 2026-09-1
 
 ### 6.1 Codex Python SDK
 
-The published `openai-codex` package is the preferred programmatic Codex interface.
+The `openai-codex` Python SDK remains the preferred programmatic Codex interface, but Phase 0 demonstrated that **source-tree capability and published-package capability must not be conflated**.
 
-Relevant current capabilities include:
+Verified on 2026-09-10:
+
+- PyPI latest is `openai-codex 0.147.0`;
+- that published package does not export `ExternalMessage`;
+- the current upstream `main` branch does implement and document `ExternalMessage`;
+- upstream maps `ExternalMessage` to the separate `turn/start.toolOutput` protocol field rather than to a `UserInput` variant;
+- upstream documentation states that external messages require CLI/runtime >= 0.151.0.
+
+Therefore a version-number check alone is insufficient. `doctor` MUST feature-probe the **actual SDK/runtime pair** used by `prflow`.
+
+Relevant SDK concepts remain:
 
 - Python >= 3.10;
 - reuse of an existing Codex login;
@@ -259,22 +273,30 @@ Relevant current capabilities include:
 - `Sandbox.read_only`, `Sandbox.workspace_write`, and `Sandbox.full_access`;
 - structured `output_schema` on turns;
 - streaming, steering, and interruption;
-- `SkillInput`;
-- `ExternalMessage`;
+- `ExternalMessage` when present in the installed SDK;
 - the public approval modes `ApprovalMode.deny_all` and `ApprovalMode.auto_review`.
 
-Current SDK threads default to `ApprovalMode.auto_review`. `prflow` MUST NOT rely on that default: **every batch thread and every batch turn MUST explicitly use `ApprovalMode.deny_all`**. `auto_review` is an automated reviewer for escalations, not a human confirmation channel.
+Current SDK threads default to `ApprovalMode.auto_review`. `prflow` MUST NOT rely on that default: **every batch thread and every batch turn MUST explicitly use `ApprovalMode.deny_all`**.
 
-The generated workspace-write sandbox policy currently defaults network access to false. `prflow` MUST nevertheless pass its sandbox policy explicitly and Spike C MUST verify the *effective* runtime behavior rather than assuming a config default has taken effect.
+The generated workspace-write sandbox policy currently defaults network access to false. `prflow` MUST nevertheless pass its sandbox policy explicitly and verify effective runtime behavior.
 
-`TurnResult.final_response` is `str | None`; a turn can complete without a final response. Section 15 defines required recovery behavior.
+`TurnResult.final_response` is `str | None`; section 15 defines required recovery behavior.
 
-`ExternalMessage` and related newer turn options require Codex CLI/runtime 0.151.0 or newer. Published SDK releases normally install a matching runtime, but a custom `CodexConfig.codex_bin` may not. `doctor` MUST verify that the effective SDK runtime supports the required feature set and MUST report batch mode unavailable if it does not.
+#### Runtime pairing policy
+
+For normal use, prefer a published SDK with its matching/bundled runtime.
+
+A custom native Codex binary override MAY be used for development spikes, but it is not automatically considered a supported production pairing merely because its version number is newer. `doctor` MUST report the SDK version, effective runtime version, whether `ExternalMessage` exists in the Python API, and whether a small feature probe succeeds.
+
+The native interactive Codex CLI may evolve independently from the SDK-driven batch path.
+
+Phase 0 observed one cache-format warning when runtime 0.147.0 and native 0.154.0 shared the same `~/.codex`. Avoid normalizing mixed-runtime use into the design.
 
 Reference:
 
 - OpenAI Codex repository: `sdk/python/docs/getting-started.md`
 - OpenAI Codex repository: `sdk/python/docs/api-reference.md`
+- OpenAI Codex repository: `sdk/python/docs/faq.md`
 - OpenAI Codex repository: `sdk/python/src/openai_codex/_approval_mode.py`
 
 MVP implementation SHOULD require Python >= 3.11 so `tomllib` is available in the standard library.
@@ -290,12 +312,16 @@ The official GitHub plugin currently describes itself as a hybrid GitHub connect
 
 Its manifest advertises `Interactive` and `Write` capabilities. The specialist `gh-address-comments` skill is directly relevant, but its normal workflow expects `gh` network access and may request elevated access when sandboxing blocks it.
 
-That makes the full plugin a poor fit for the MVP **batch** trust boundary. The default design is:
+That makes the full plugin a poor fit for the MVP **batch** trust boundary.
 
-- full connected GitHub plugin: interactive Codex use;
-- batch Codex: authoritative GitHub data supplied by `prflow`, optionally plus isolated skill guidance if Spike C proves that no GitHub app/MCP/network write path accompanies it.
+Phase 0 found that the installed GitHub plugin is delivered through the `codex_apps` connector/MCP surface and that no isolated local `gh-address-comments` skill payload was available through `SkillInput`.
 
-Do not weaken `deny_all` or enable batch network merely to make the skill's `gh` commands work.
+Therefore the MVP decision is now explicit:
+
+- **interactive Codex:** the full connected GitHub plugin may be used under the user's normal interactive approval model;
+- **batch Codex:** do not load the GitHub plugin or its connected tools; `prflow` supplies authoritative GitHub data and uses project-owned prompts.
+
+Do not weaken `deny_all`, enable batch network, or copy private plugin internals merely to reuse the skill in batch.
 
 References:
 
@@ -370,7 +396,9 @@ The spike MUST demonstrate that no code path relies on the SDK's `auto_review` d
 
 ### Spike B — untrusted GitHub input
 
-Prove that a synthetic review comment can be sent as `ExternalMessage` while controlled task/policy instructions retain higher authority.
+Prove that a synthetic review comment can enter the model with **tool-level authority** while controlled task/policy instructions retain higher authority.
+
+The preferred mechanism is `ExternalMessage`. Do not count a delimited user-role fallback as a pass.
 
 The test fixture MUST contain a normal review request whose expected disposition is obvious, followed by malicious or irrelevant instructions such as requests to change the disposition, set `resolve_after_reply`, quote secrets, or inject text into the proposed GitHub reply.
 
@@ -381,9 +409,11 @@ Because `read_only + deny_all` already blocks many tool effects, the pass criter
 - appear verbatim in `proposed_reply` unless it is genuinely part of the reviewer-visible discussion being answered;
 - override scope or policy fields established by developer/base instructions.
 
-This spike is not a proof that prompt injection is impossible. It verifies that the intended authority separation is represented correctly and catches obvious regressions.
+**Phase 0 result:** BLOCKED on the published `openai-codex 0.147.0` Python API because it does not export `ExternalMessage`. The exploratory user-role fallback remains a regression fixture only.
 
-### Spike C — batch GitHub isolation and optional skill reuse
+Before Phase 2, rerun this spike with a coherent SDK/runtime pair that exposes the upstream tool-authority interface. A short follow-up spike MAY test the current upstream Python SDK against the stable native runtime, but the project SHOULD prefer waiting for a matching published SDK rather than depending on an unreleased source checkout.
+
+### Spike C — batch GitHub isolation and plugin boundary
 
 This spike is primarily a **negative capability test**: prove that batch Codex cannot write to GitHub even though the trusted parent process can.
 
@@ -396,15 +426,33 @@ Prove all of the following using the actual intended SDK launch path:
 5. an agent-attempted `gh api user` / harmless GitHub read cannot reach GitHub and cannot obtain an escalation;
 6. no GitHub connector/MCP app tool capable of writes is exposed to the batch turn.
 
-Then test optional skill reuse:
+Also determine whether installed plugin configuration leaks into the batch tool surface.
 
-7. determine whether `SkillInput` can load the installed `gh-address-comments` skill guidance without activating the plugin's app/MCP tools;
-8. inspect/record enough runtime evidence to justify that conclusion;
-9. verify that the skill cannot circumvent the no-network/deny-all boundary by requesting elevated `gh` access.
+**Phase 0 result:** PASS on the tested configuration. Parent `gh` access worked while agent `gh`, direct network, escalation, MCP/app tools, web tools, and delegation paths were unavailable. The final runtime tool inventory contained only local built-ins needed for workspace work.
 
-If points 6-9 cannot be proven reliably, the MVP MUST NOT load the GitHub plugin or `gh-address-comments` skill in batch mode. That is an acceptable and expected fallback: `prflow` supplies authoritative review data itself and Codex reasons over it using project-owned prompts.
+Phase 0 also proved that `mcp_servers={}` **merges** and does not clear inherited MCP servers. Batch launch MUST therefore enumerate effective inherited servers, explicitly disable each one, and run a fail-closed preflight before a model turn. Any connected, starting, unknown, or tool-exposing server makes batch mode unavailable.
 
-The full connected plugin remains available to a separately launched interactive Codex session under the user's normal interactive approval model.
+Batch GitHub skill reuse is **REJECTED** for the MVP. The full connected plugin remains available only to separately launched interactive Codex sessions.
+
+### Spike F — credential-read surface (required before Phase 2)
+
+Phase 0 proved network/tool isolation, but also observed that a sandboxed batch command could read the user's `~/.config/gh/hosts.yml`.
+
+Network denial prevents direct egress, but readable credentials are still undesirable because an injected or confused agent could copy secret material into a workspace change or final response that a human later publishes.
+
+Before Phase 2, prove a minimal practical filesystem policy for batch turns that prevents reading known credential stores while preserving normal repository work and Codex control-plane authentication.
+
+At minimum probe, when present:
+
+- `~/.config/gh/hosts.yml`;
+- `~/.gnupg`;
+- `~/.ssh`;
+- Codex authentication material such as `~/.codex/auth.json`;
+- common repository secret files such as `.env` where present.
+
+Prefer supported Codex filesystem permission profiles if they work reliably on the target Linux/WSL environment. A sanitized shell environment is useful defense in depth but is not enough for file-backed credentials.
+
+If a deny-read policy cannot be made reliable, record that limitation explicitly and keep batch publication guarded by human diff/outbox review. Do not invent a large custom sandboxing framework in the MVP merely to solve this spike.
 
 ### Spike D — deterministic review-thread GraphQL
 
@@ -1080,14 +1128,17 @@ prflow refresh
 - `gh auth status`;
 - Codex SDK importable;
 - Codex authentication/account state when practical;
-- effective Codex SDK/runtime version, with batch readiness requiring the features used by `prflow` (including `ExternalMessage`, currently CLI/runtime >= 0.151.0);
+- effective Codex SDK/runtime versions and whether that exact pair passes the required feature probe;
+- whether the installed Python SDK exports `ExternalMessage` (or a future equivalent supported tool-authority input);
 - GitHub plugin status;
 - actual GitHub skill payload availability where practical (do not rely solely on a nominal "installed" flag);
 - current repo/PR resolvable;
 - configured checks;
 - presence of `.pre-commit-config.yaml`;
 - whether the Git pre-commit hook is installed;
-- commit-signing configuration, reported informationally.
+- commit-signing configuration, reported informationally;
+- sandbox backend health (for example Bubblewrap availability/doctor status on Linux);
+- known credential-read exposure discovered by the Phase 2 security probe, reported clearly rather than hidden.
 
 `doctor` MUST NOT modify Git signing settings.
 
@@ -1224,7 +1275,16 @@ Every batch Codex thread and turn MUST explicitly use:
 
 Do not use `ApprovalMode.auto_review` in batch mode. There is no human-approval mode in the current public Python SDK; `auto_review` delegates escalations to an automated reviewer.
 
-The batch launch/preflight SHOULD also remove obvious GitHub-token environment variables (`GH_TOKEN`, `GITHUB_TOKEN`, `GITHUB_PAT_TOKEN`) from the child environment where this can be done without affecting Codex authentication. This is defense in depth; **network/tool isolation remains the authorization boundary**, because filesystem-readable credential stores may still exist on the host.
+The batch launch/preflight SHOULD remove obvious GitHub-token environment variables (`GH_TOKEN`, `GITHUB_TOKEN`, `GITHUB_PAT_TOKEN`, `GH_ENTERPRISE_TOKEN`, `GITHUB_ENTERPRISE_TOKEN`) from the child environment where this can be done without affecting Codex authentication.
+
+Phase 0 established two further batch-launch requirements:
+
+1. `mcp_servers={}` is not a clearing operation; inherited servers MUST be enumerated and explicitly disabled.
+2. preflight MUST fail closed if any MCP/app server is connected, exposes tools, is starting, or has an unknown state.
+
+The published SDK's low-level client currently contains a permissive default approval handler even though `ApprovalMode.deny_all` prevents normal escalations from being granted. If `prflow` uses a compatibility shim to reject unexpected server requests, isolate that shim in one small module, pin tests to the private surface it relies on, and delete the shim when a public fail-closed hook exists.
+
+Environment sanitization is defense in depth. **Network/tool isolation remains the GitHub-authorization boundary**, while §7 Spike F addresses the separate confidentiality problem of filesystem-readable credentials.
 
 ### 15.2 Triage turn
 
@@ -1233,9 +1293,11 @@ Use:
 - `Sandbox.read_only`;
 - `ApprovalMode.deny_all`;
 - structured `output_schema`;
-- `ExternalMessage` for raw review text.
+- `ExternalMessage` (or a future verified equivalent tool-authority interface) for raw review text.
 
-The current SDK requires `ExternalMessage` to be the complete turn input; it cannot be mixed into a normal user-input list. Therefore the triage policy/task instructions SHOULD be established through thread `base_instructions` / `developer_instructions` (or an earlier controlled setup turn), and the review thread itself delivered as the subsequent `ExternalMessage` turn that requests the structured result.
+A user-role/delimited fallback MUST NOT be used in normal batch mode.
+
+In the current upstream SDK design, `ExternalMessage` is the complete turn input and is mapped to the app-server `turn/start.toolOutput` path rather than a normal `UserInput` item. Policy/task instructions SHOULD therefore be established through thread `base_instructions` / `developer_instructions`, and the review thread delivered as the subsequent tool-authority turn input requesting the structured result.
 
 `review triage --all` iterates unresolved threads as separate structured work items and observes the cap in §13.2.
 
@@ -1249,7 +1311,7 @@ Use:
 - `ApprovalMode.deny_all`;
 - effective network access from sandboxed agent tools/commands disabled;
 - the selected review thread only, plus necessary PR/repository context;
-- optional GitHub skill guidance only if Spike C proves it can be isolated from GitHub app/MCP tools;
+- project-owned GitHub-review prompts; no connected GitHub plugin/skill in batch mode;
 - explicit developer instructions:
   - modify only what is required for the selected work item;
   - do not commit;
@@ -1662,7 +1724,15 @@ Batch Codex MUST NOT be able to reach GitHub using `gh`, `git push`, direct HTTP
 
 Phase 0 tests this invariant from inside the agent execution path. A configuration that unexpectedly grants network or connector write capability makes batch mode unavailable until corrected.
 
-### 22.6 No hidden authority from Codex thread history
+### 22.6 Credential reads are a separate boundary from network egress
+
+A no-network sandbox can still leak local secrets indirectly if the agent can read a credential file and then copy its contents into a workspace edit or final response.
+
+Therefore Phase 2 batch mode SHOULD deny reads of known credential stores where the target platform supports this reliably. At minimum `doctor` must surface known exposure found by Spike F.
+
+Human inspection of diffs and staged GitHub text remains required; it is defense in depth, not a substitute for filesystem isolation.
+
+### 22.7 No hidden authority from Codex thread history
 
 Resuming a Codex thread does not grant new workflow permissions.
 
@@ -1871,7 +1941,11 @@ Deliverable:
 - evidence that batch Codex cannot reach/write GitHub through `gh`, connector, or MCP paths;
 - evidence that all batch turns use `ApprovalMode.deny_all` and effective network-disabled sandboxes.
 
-Do not build the full application before these questions are answered.
+Phase 0 completed on 2026-09-10 with A, C, D, and E passing; B blocked on the published Python SDK interface; batch GitHub skill reuse rejected.
+
+**Phase 1 is authorized to proceed despite Spike B being blocked**, because Phase 1 contains no SDK-driven Codex reasoning and no batch model turn.
+
+Do not start Phase 2 batch implementation until Spike B and Spike F satisfy their gates.
 
 ### Phase 1 — orientation and read-only dogfood
 
@@ -1894,11 +1968,17 @@ Acceptance:
 
 ### Phase 2 — Codex triage and local fixes
 
+Prerequisites:
+
+- Spike B passes with a coherent SDK/runtime pair and real tool-authority input;
+- Spike F records an acceptable credential-read posture;
+- batch MCP/app preflight from Spike C is retained and tested.
+
 Implement:
 
 - Codex adapter;
 - structured triage schema;
-- `ExternalMessage`;
+- `ExternalMessage` or its verified future-equivalent public interface;
 - `review triage`;
 - `review fix`;
 - configured checks;
@@ -2196,6 +2276,10 @@ Verified while drafting this specification on 2026-09-10:
   https://github.com/openai/codex/blob/main/sdk/python/docs/getting-started.md
 - OpenAI Codex Python SDK API reference:  
   https://github.com/openai/codex/blob/main/sdk/python/docs/api-reference.md
+- OpenAI Codex Python SDK FAQ (`ExternalMessage` / runtime requirement):  
+  https://github.com/openai/codex/blob/main/sdk/python/docs/faq.md
+- Published Python SDK 0.147.0 on PyPI (latest as verified 2026-09-10):  
+  https://pypi.org/project/openai-codex/0.147.0/
 - OpenAI Codex SDK approval-mode implementation:  
   https://github.com/openai/codex/blob/main/sdk/python/src/openai_codex/_approval_mode.py
 - Codex generated config schema (`sandbox_workspace_write.network_access` default false):  
@@ -2225,5 +2309,20 @@ The external review that motivated this revision identified three blocking issue
 3. `resolve_thread` is staged only after any preceding reply has been published and the thread refreshed.
 
 The revision also incorporates the lower-cost correctness items around runtime versions, `final_response is None`, semantic prompt-injection tests, exact thread fingerprints, state locking, per-worktree state, authoritative PR-head fetching, publish-time attribution, refresh semantics, triage caps, JSON publication, and dual audit identity. During revision QA, the check fingerprint was also changed from HEAD-based to content-based so a pure commit/sign operation does not invalidate already-tested content.
+
+
+
+### Revision 0.3 Phase 0 decisions
+
+The completed foundation spikes changed the plan in four important ways:
+
+1. **Phase 1 proceeds now.** Its read-only Git/GitHub orientation work does not depend on `ExternalMessage`.
+2. **Phase 2 batch remains gated.** The published Python SDK 0.147.0 lacks the required public `ExternalMessage` API, so the user-role fallback is not accepted as equivalent.
+3. **Batch GitHub plugin/skill reuse is removed from the MVP.** The installed plugin is a connected app/MCP surface; batch uses project-owned prompts plus parent-fetched GitHub data.
+4. **MCP inheritance is handled explicitly.** `mcp_servers={}` does not clear inherited servers; each effective server is disabled and preflight rejects anything not explicitly disabled and tool-free.
+
+Phase 0 also discovered readable file-backed credentials inside the otherwise offline sandbox. Revision 0.3 adds a small credential-read spike before Phase 2 rather than expanding `prflow` into a custom sandboxing framework.
+
+The report's statement that native CLI 0.154.0 lacks a matching `ExternalMessage` *input variant* should not be treated as proof that the runtime lacks the wire capability. Current upstream SDK code maps `ExternalMessage` to the separate `turn/start.toolOutput` field. The actual supported SDK/runtime pair must be feature-probed rather than inferred from the `UserInput` union.
 
 External interfaces are expected to evolve. The feasibility spikes are intentionally part of the specification so implementation follows observed current behavior rather than assumptions frozen into this document.

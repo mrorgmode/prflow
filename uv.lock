@@ -78,21 +78,28 @@ wheels = [
 [[package]]
 name = "prflow"
 version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
+source = { editable = "." }
+
+[package.optional-dependencies]
+codex = [
     { name = "openai-codex" },
 ]
 
 [package.dev-dependencies]
 dev = [
+    { name = "openai-codex" },
     { name = "pytest" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "openai-codex", specifier = "==0.147.0" }]
+requires-dist = [{ name = "openai-codex", marker = "extra == 'codex'", specifier = "==0.147.0" }]
+provides-extras = ["codex"]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.1.1" }]
+dev = [
+    { name = "openai-codex", specifier = "==0.147.0" },
+    { name = "pytest", specifier = ">=9.1.1" },
+]
 
 [[package]]
 name = "pydantic"

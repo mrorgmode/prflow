@@ -1,12 +1,33 @@
 [project]
 name = "prflow"
 version = "0.1.0"
+description = "Local-first workflow harness for GitHub pull-request review with Codex (Phase 1: read-only orientation)"
+readme = "README.md"
 requires-python = ">=3.11"
-dependencies = [
-    "openai-codex==0.147.0",
-]
+# Phase 1 runtime is the standard library plus external `git` and `gh` executables.
+dependencies = []
+
+[project.optional-dependencies]
+# Only `prflow doctor` looks at it (installed version, ExternalMessage export); Phase 2 batch will need it.
+codex = ["openai-codex==0.147.0"]
+
+[project.scripts]
+prflow = "prflow.cli:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
+    # The Phase 0 spike tests import the SDK directly.
+    "openai-codex==0.147.0",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
