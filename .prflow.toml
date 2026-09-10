@@ -1,0 +1,7 @@
+schema_version = 1
+
+# Project checks (SPEC §19). Phase 1 only reports them in `prflow doctor`; `prflow check` arrives in Phase 2.
+[checks]
+default = [
+  ["uv", "run", "pytest", "-q"],
+]
