@@ -1,0 +1,258 @@
+{
+  "checks": {
+    "every_turn_deny_all": true,
+    "every_turn_read_only_no_network": true,
+    "no_server_requests": true,
+    "resume_worked": true,
+    "structured_result_parsed": true,
+    "thread_effective_reviewer_is_not_auto_review": true,
+    "thread_start_deny_all": true
+  },
+  "effort": "low",
+  "external_message_gate": "fail-closed: batch mode unavailable: openai-codex 0.147.0 does not export ExternalMessage",
+  "model": "gpt-5.6-luna",
+  "provenance": {
+    "config_overrides_at_run": [
+      "approval_policy=\"never\"",
+      "sandbox_mode=\"read-only\"",
+      "sandbox_workspace_write.network_access=false",
+      "features.apps=false",
+      "features.plugins=false",
+      "features.remote_plugin=false",
+      "features.skill_mcp_dependency_install=false",
+      "include_apps_instructions=false",
+      "mcp_servers={}",
+      "tools.web_search=false",
+      "features.browser_use=false",
+      "features.computer_use=false",
+      "features.image_generation=false",
+      "features.multi_agent=false",
+      "shell_environment_policy.exclude=[...]"
+    ],
+    "git_commit": null,
+    "note": "2026-09-10 ~19:27 UTC, gpt-5.6-luna low, 2 turns",
+    "runtime": "codex-cli 0.154.0 (PRFLOW_CODEX_BIN)",
+    "sdk": "openai-codex 0.147.0"
+  },
+  "runtime_check": {
+    "batch_ready_for_external_message": false,
+    "codex_bin": "/home/dev/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl/bin/codex",
+    "runtime_meets_external_message_minimum": true,
+    "runtime_version": "0.154.0",
+    "sdk_external_message": false,
+    "sdk_version": "0.147.0"
+  },
+  "server_requests": [],
+  "stderr_tail": [],
+  "thread_id": "01a08ccb-c78e-7e80-aaac-bb8a6bcce76f",
+  "turn1": {
+    "final_response_is_none": false,
+    "items": [
+      {
+        "type": "UserMessageThreadItem"
+      },
+      {
+        "type": "ReasoningThreadItem"
+      },
+      {
+        "aggregated_output": "/home/dev/proj/prflow\ntrue\nSPEC.md\ndocs\npyproject.toml\nspikes\ntests\nuv.lock\n",
+        "command": "/bin/bash -lc 'd=$(pwd); spec=false; [ -f SPEC.md ] && spec=true; entries=$(find . -mindepth 1 -maxdepth 1 -printf '\"'%f\\\\n' | awk '\"'!/''^'\"\\\\./' | sort); printf '%s\\\\n' \\\"\"'$d\" \"$spec\"; printf '\"'%s\\\\n' \\\"\"'$entries\"'",
+        "exit_code": 0,
+        "status": "completed",
+        "type": "CommandExecutionThreadItem"
+      },
+      {
+        "phase": "final_answer",
+        "text": "{\"repo_dir_name\":\"prflow\",\"spec_present\":true,\"top_level_entries\":[\"SPEC.md\",\"docs\",\"pyproject.toml\",\"spikes\",\"tests\",\"uv.lock\"]}",
+        "type": "AgentMessageThreadItem"
+      }
+    ],
+    "status": "completed",
+    "structured": {
+      "repo_dir_name": "prflow",
+      "spec_present": true,
+      "top_level_entries": [
+        "SPEC.md",
+        "docs",
+        "pyproject.toml",
+        "spikes",
+        "tests",
+        "uv.lock"
+      ]
+    },
+    "structured_ok": true,
+    "structured_reason": null,
+    "usage": {
+      "last": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 8960,
+        "input_tokens": 10053,
+        "output_tokens": 46,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 10099
+      },
+      "model_context_window": 258400,
+      "total": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 8960,
+        "input_tokens": 19870,
+        "output_tokens": 232,
+        "reasoning_output_tokens": 63,
+        "total_tokens": 20102
+      }
+    }
+  },
+  "turn2_resumed": {
+    "items": [
+      {
+        "type": "UserMessageThreadItem"
+      },
+      {
+        "phase": "final_answer",
+        "text": "{\"repo_dir_name\":\"prflow\",\"spec_present\":true,\"top_level_entries\":[\"SPEC.md\",\"docs\",\"pyproject.toml\",\"spikes\",\"tests\",\"uv.lock\"]}",
+        "type": "AgentMessageThreadItem"
+      }
+    ],
+    "status": "completed",
+    "structured": {
+      "repo_dir_name": "prflow",
+      "spec_present": true,
+      "top_level_entries": [
+        "SPEC.md",
+        "docs",
+        "pyproject.toml",
+        "spikes",
+        "tests",
+        "uv.lock"
+      ]
+    },
+    "structured_ok": true,
+    "thread_id": "01a08ccb-c78e-7e80-aaac-bb8a6bcce76f"
+  },
+  "wire": [
+    {
+      "method": "thread/start",
+      "params": {
+        "approvalPolicy": "never",
+        "cwd": "/home/dev/proj/prflow",
+        "developerInstructions": "You are running inside a read-only, network-disabled batch harness.\nUse at most one shell command. Do not modify files. Do not request elevated permissions.\nAnswer only with JSON that matches the provided schema.",
+        "ephemeral": false,
+        "model": "gpt-5.6-luna",
+        "sandbox": "read-only"
+      },
+      "response": {
+        "approvalPolicy": "never",
+        "approvalsReviewer": "user",
+        "cliVersion": "0.154.0",
+        "cwd": "/home/dev/proj/prflow",
+        "model": "gpt-5.6-luna",
+        "reasoningEffort": "medium",
+        "sandbox": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "threadId": "01a08ccb-c78e-7e80-aaac-bb8a6bcce76f"
+      }
+    },
+    {
+      "method": "turn/start",
+      "params": {
+        "approvalPolicy": "never",
+        "effort": "low",
+        "model": "gpt-5.6-luna",
+        "outputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "repo_dir_name": {
+              "type": "string"
+            },
+            "spec_present": {
+              "type": "boolean"
+            },
+            "top_level_entries": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "repo_dir_name",
+            "spec_present",
+            "top_level_entries"
+          ],
+          "type": "object"
+        },
+        "sandboxPolicy": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "threadId": "01a08ccb-c78e-7e80-aaac-bb8a6bcce76f"
+      },
+      "response": {
+        "turnId": "01a08ccb-c810-7c30-878d-d9080d9a3f6e"
+      }
+    },
+    {
+      "method": "thread/resume",
+      "params": {
+        "approvalPolicy": "never",
+        "model": "gpt-5.6-luna",
+        "sandbox": "read-only",
+        "threadId": "01a08ccb-c78e-7e80-aaac-bb8a6bcce76f"
+      },
+      "response": {
+        "approvalPolicy": "never",
+        "approvalsReviewer": "user",
+        "cliVersion": "0.154.0",
+        "cwd": "/home/dev/proj/prflow",
+        "model": "gpt-5.6-luna",
+        "reasoningEffort": "low",
+        "sandbox": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "threadId": "01a08ccb-c78e-7e80-aaac-bb8a6bcce76f"
+      }
+    },
+    {
+      "method": "turn/start",
+      "params": {
+        "approvalPolicy": "never",
+        "effort": "low",
+        "model": "gpt-5.6-luna",
+        "outputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "repo_dir_name": {
+              "type": "string"
+            },
+            "spec_present": {
+              "type": "boolean"
+            },
+            "top_level_entries": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "repo_dir_name",
+            "spec_present",
+            "top_level_entries"
+          ],
+          "type": "object"
+        },
+        "sandboxPolicy": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "threadId": "01a08ccb-c78e-7e80-aaac-bb8a6bcce76f"
+      },
+      "response": {
+        "turnId": "01a08ccb-e797-75e1-b95d-6011377fba49"
+      }
+    }
+  ]
+}

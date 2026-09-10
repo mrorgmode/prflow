@@ -1,0 +1,19 @@
+{
+  "status": "BLOCKED",
+  "when": "2026-09-10 ~20:05 UTC",
+  "what": "spike_c_isolation.py live workspace_write turn under the final batch config (trace capture + ALL_TOOLS + gh/curl + escalation)",
+  "turn_error": "You've hit your usage limit. ... try again at 11:48 PM.",
+  "note": "Parent gh api user succeeded; thread/start and preflight_no_tool_servers passed before the turn; the turn itself was refused by the Codex service, so no tool items and no trace were produced. Not retried (quota). Raw trace directory was deleted by TraceCapture.",
+  "launch": {
+    "model": "gpt-5.6-luna",
+    "effort": "low",
+    "sandbox": "workspace_write",
+    "approval": "deny_all",
+    "codex_bin": "native codex-cli 0.154.0",
+    "config_overrides": "BATCH_CONFIG_OVERRIDES at HEAD of this checkout (see batch_launch.py)"
+  },
+  "source_sha256": {
+    "spikes/batch_launch.py": "ec5b82fb54a1e06387ccf50c8b82018b73eb8bfa2955c9fa00104301bc950b66",
+    "spikes/spike_c_isolation.py": "09f9f28db3ef9c2465f2e4aee89fb13f345641e347988fabc07e1e9d904f48a2"
+  }
+}

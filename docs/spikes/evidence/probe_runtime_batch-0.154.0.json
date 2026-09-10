@@ -1,0 +1,319 @@
+{
+  "batch": {
+    "apps_no_thread": {
+      "app/installed": [
+        {
+          "id": "connector_20205bf7d4e99a89d7154bb849718324",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_76869538009648d5b282a4bb21c3d157",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_codex_document_control",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_hotline",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_plugin_management",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_safety_settings",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        }
+      ],
+      "app/list": []
+    },
+    "apps_thread": {
+      "app/installed": [
+        {
+          "id": "connector_20205bf7d4e99a89d7154bb849718324",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_76869538009648d5b282a4bb21c3d157",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_codex_document_control",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_hotline",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_plugin_management",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        },
+        {
+          "id": "connector_openai_safety_settings",
+          "isAccessible": null,
+          "isEnabled": null,
+          "name": null
+        }
+      ],
+      "app/list": []
+    },
+    "config": {
+      "approval_policy": "never",
+      "default_permissions": null,
+      "features": {
+        "apps": false,
+        "auth_elicitation": true,
+        "background_paginated_rollout_migration": false,
+        "browser_use": false,
+        "computer_use": false,
+        "image_generation": false,
+        "mcp_2026_07_28": false,
+        "memories": false,
+        "mentions_v2": true,
+        "multi_agent": false,
+        "network_proxy": null,
+        "plugins": false,
+        "remote_control": false,
+        "remote_plugin": false,
+        "skill_mcp_dependency_install": false,
+        "tool_suggest": true,
+        "windows_sandbox_service": false
+      },
+      "include_apps_instructions": false,
+      "mcp_servers": {},
+      "model": "gpt-6-astra",
+      "plugins": {},
+      "sandbox_mode": "read-only",
+      "sandbox_workspace_write": {
+        "exclude_slash_tmp": false,
+        "exclude_tmpdir_env_var": false,
+        "network_access": false,
+        "writable_roots": []
+      },
+      "shell_environment_policy": {
+        "exclude": [
+          "GH_TOKEN",
+          "GITHUB_TOKEN",
+          "GITHUB_PAT_TOKEN",
+          "GH_ENTERPRISE_TOKEN",
+          "GITHUB_ENTERPRISE_TOKEN",
+          "*_TOKEN",
+          "*_SECRET",
+          "*_API_KEY"
+        ],
+        "experimental_use_profile": null,
+        "filters": null,
+        "ignore_default_excludes": null,
+        "include_only": null,
+        "inherit": null,
+        "set": null
+      },
+      "tools": {
+        "web_search": null
+      },
+      "web_search": "disabled"
+    },
+    "initialize": {
+      "serverName": "prflow_spike",
+      "serverVersion": "0.154.0 (Ubuntu 26.4.0; x86_64) xterm-256color (prflow_spike; 0.147.0)",
+      "userAgent": "prflow_spike/0.154.0 (Ubuntu 26.4.0; x86_64) xterm-256color (prflow_spike; 0.147.0)"
+    },
+    "label": "batch-0.154.0",
+    "mcp_no_thread": {
+      "serverCount": 0,
+      "servers": []
+    },
+    "mcp_thread": {
+      "serverCount": 0,
+      "servers": []
+    },
+    "models": [
+      {
+        "defaultEffort": "low",
+        "hidden": false,
+        "isDefault": true,
+        "model": "gpt-6-astra"
+      },
+      {
+        "defaultEffort": "low",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.6-sol"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.6-terra"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.6-luna"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.5"
+      }
+    ],
+    "permissionProfiles": [
+      {
+        "allowed": true,
+        "description": null,
+        "id": ":read-only"
+      },
+      {
+        "allowed": true,
+        "description": null,
+        "id": ":workspace"
+      },
+      {
+        "allowed": true,
+        "description": null,
+        "id": ":danger-full-access"
+      }
+    ],
+    "server_requests": [],
+    "skills": [
+      {
+        "enabled": true,
+        "name": "imagegen",
+        "path": "/home/dev/.codex/skills/.system/imagegen/SKILL.md"
+      },
+      {
+        "enabled": true,
+        "name": "openai-docs",
+        "path": "/home/dev/.codex/skills/.system/openai-docs/SKILL.md"
+      },
+      {
+        "enabled": true,
+        "name": "plugin-creator",
+        "path": "/home/dev/.codex/skills/.system/plugin-creator/SKILL.md"
+      },
+      {
+        "enabled": true,
+        "name": "review-agent",
+        "path": "/home/dev/.codex/skills/.system/review-agent/SKILL.md"
+      },
+      {
+        "enabled": true,
+        "name": "skill-creator",
+        "path": "/home/dev/.codex/skills/.system/skill-creator/SKILL.md"
+      },
+      {
+        "enabled": true,
+        "name": "skill-installer",
+        "path": "/home/dev/.codex/skills/.system/skill-installer/SKILL.md"
+      }
+    ],
+    "stderr_tail": [],
+    "thread": {
+      "id": "01a08cce-a0f2-7fb2-8c65-eb60d8cd8ad7"
+    },
+    "thread_start_wire": [
+      {
+        "method": "thread/start",
+        "params": {
+          "approvalPolicy": "never",
+          "cwd": "/home/dev/proj/prflow",
+          "developerInstructions": "probe only; no turn will run",
+          "ephemeral": true,
+          "model": "gpt-5.6-luna",
+          "sandbox": "read-only"
+        },
+        "response": {
+          "approvalPolicy": "never",
+          "approvalsReviewer": "user",
+          "cliVersion": "0.154.0",
+          "cwd": "/home/dev/proj/prflow",
+          "model": "gpt-5.6-luna",
+          "reasoningEffort": "medium",
+          "sandbox": {
+            "networkAccess": false,
+            "type": "readOnly"
+          },
+          "threadId": "01a08cce-a0f2-7fb2-8c65-eb60d8cd8ad7"
+        }
+      }
+    ]
+  },
+  "config_overrides": [
+    "approval_policy=\"never\"",
+    "sandbox_mode=\"read-only\"",
+    "sandbox_workspace_write.network_access=false",
+    "features.apps=false",
+    "features.plugins=false",
+    "features.remote_plugin=false",
+    "features.skill_mcp_dependency_install=false",
+    "include_apps_instructions=false",
+    "mcp_servers={}",
+    "web_search=\"disabled\"",
+    "tools.web_search=false",
+    "features.browser_use=false",
+    "features.computer_use=false",
+    "features.image_generation=false",
+    "features.multi_agent=false",
+    "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]"
+  ],
+  "provenance": {
+    "config_overrides_at_run": [
+      "approval_policy=\"never\"",
+      "sandbox_mode=\"read-only\"",
+      "sandbox_workspace_write.network_access=false",
+      "features.apps=false",
+      "features.plugins=false",
+      "features.remote_plugin=false",
+      "features.skill_mcp_dependency_install=false",
+      "include_apps_instructions=false",
+      "mcp_servers={}",
+      "web_search=\"disabled\"",
+      "tools.web_search=false",
+      "features.browser_use=false",
+      "features.computer_use=false",
+      "features.image_generation=false",
+      "features.multi_agent=false",
+      "agents.max_depth=0",
+      "shell_environment_policy.exclude=[...]"
+    ],
+    "git_commit": null,
+    "note": "offline, no model turn; re-run after web_search override; agents.max_depth not present in this probe",
+    "runtime": "codex-cli 0.154.0 (PRFLOW_CODEX_BIN)",
+    "sdk": "openai-codex 0.147.0"
+  },
+  "runtime_check": {
+    "batch_ready_for_external_message": false,
+    "codex_bin": "/home/dev/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl/bin/codex",
+    "runtime_meets_external_message_minimum": true,
+    "runtime_version": "0.154.0",
+    "sdk_external_message": false,
+    "sdk_version": "0.147.0"
+  }
+}

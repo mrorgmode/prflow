@@ -1,0 +1,51 @@
+{
+  "argv": [
+    "/home/dev/.local/bin/codex",
+    "--cd",
+    "/home/dev/proj/prflow"
+  ],
+  "banner_excerpt": "\u001b[>4;0m\u001b[>7uTip:NewUse/fasttoenableourfastestinferencewithincreasedplanusage.\u2022Youhave3usagelimitresetsavailable.Run/usagetouseone.",
+  "bytes_captured": 6729,
+  "exit_status_raw": 0,
+  "exited_after_quit_keys": true,
+  "launch": {
+    "codex_bin_env": null,
+    "config_overrides": [
+      "approval_policy=\"never\"",
+      "sandbox_mode=\"read-only\"",
+      "sandbox_workspace_write.network_access=false",
+      "features.apps=false",
+      "features.plugins=false",
+      "features.remote_plugin=false",
+      "features.skill_mcp_dependency_install=false",
+      "include_apps_instructions=false",
+      "mcp_servers={}",
+      "web_search=\"disabled\"",
+      "tools.web_search=false",
+      "features.browser_use=false",
+      "features.computer_use=false",
+      "features.image_generation=false",
+      "features.multi_agent=false",
+      "agents.max_depth=0",
+      "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]"
+    ],
+    "git_commit": "6165aada5c2f49b389f62f308e0cf9abdba35a3a",
+    "sdk_version": "0.147.0",
+    "stripped_env_vars": [
+      "GH_TOKEN",
+      "GITHUB_TOKEN",
+      "GITHUB_PAT_TOKEN",
+      "GH_ENTERPRISE_TOKEN",
+      "GITHUB_ENTERPRISE_TOKEN"
+    ],
+    "unknown_server_request_policy": "abort (handler raises)"
+  },
+  "markers_seen": [
+    "Tip:"
+  ],
+  "model_turn_started": false,
+  "prompt_submitted": false,
+  "rendered": true,
+  "seconds_to_render": 1.23,
+  "what_this_proves": "the native codex TUI starts in this repository with the user's normal interactive configuration and exits on quit keys; the generated prompt was NOT passed because the TUI auto-submits a positional prompt (model turn), so prompt delivery is proven only by argv construction"
+}
