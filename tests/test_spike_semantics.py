@@ -128,3 +128,37 @@ def test_interactive_argv_runs_native_codex_in_repo_root(monkeypatch, tmp_path: 
     argv = e.build_argv(tmp_path, "PROMPT")
     assert argv == [str(fake), "--cd", str(tmp_path), "PROMPT"]
     assert "-m" not in e.build_argv(tmp_path, "PROMPT")  # user's interactive default model is respected
+
+
+HANDOFF = json.loads((ROOT / "spikes" / "fixtures" / "review_thread_handoff.json").read_text())
+
+
+def test_handoff_marker_is_derived_from_work_item_only() -> None:
+    marker = e.handoff_marker(HANDOFF)
+    assert marker.startswith("PRFLOW-HANDOFF-ACK-") and marker == e.handoff_marker(dict(HANDOFF))
+    assert marker != e.handoff_marker(dict(HANDOFF, alias="T9"))
+
+
+def test_handoff_smoke_prompt_is_harmless_and_contains_marker_once() -> None:
+    prompt = e.handoff_smoke_prompt(HANDOFF, "OWNER/REPO", 1)
+    assert prompt.count(e.handoff_marker(HANDOFF)) == 1
+    assert "reply_only" in prompt and "Do not run any tool" in prompt and "do not touch GitHub" in prompt
+    assert "SYSTEM OVERRIDE" not in prompt  # never the malicious fixture
+
+
+def test_rollout_summary_keeps_only_final_assistant_text(tmp_path: Path) -> None:
+    marker = "PRFLOW-HANDOFF-ACK-x"
+    lines = [
+        {"type": "session_meta", "payload": {"cwd": str(tmp_path)}},
+        {"type": "response_item", "payload": {"type": "message", "role": "user", "content": [{"type": "input_text", "text": marker}]}},
+        {"type": "response_item", "payload": {"type": "reasoning", "summary": [{"text": "secret thoughts"}]}},
+        {"type": "response_item", "payload": {"type": "message", "role": "assistant", "content": [{"type": "output_text", "text": marker + "\n"}]}},
+    ]
+    path = tmp_path / "rollout-x.jsonl"
+    path.write_text("\n".join(json.dumps(l) for l in lines))
+    s = e._rollout_summary(path, marker, tmp_path)
+    assert s["final_assistant_is_exact_marker"] and s["tool_calls"] == 0 and s["message_roles"] == {"user": 1, "assistant": 1}
+    assert "secret" not in json.dumps(s)
+    lines.append({"type": "response_item", "payload": {"type": "custom_tool_call", "name": "exec"}})
+    path.write_text("\n".join(json.dumps(l) for l in lines))
+    assert e._rollout_summary(path, marker, tmp_path)["tool_calls"] == 1

@@ -300,7 +300,8 @@ class BatchCodex(Codex):
     ``openai_codex/api.py`` in openai-codex 0.147.0 and are checked by tests.
     """
 
-    def __init__(self, config: CodexConfig) -> None:  # noqa: D107 - see class doc
+    def __init__(self, config: CodexConfig, *, preflight: bool = True) -> None:  # noqa: D107 - see class doc
+        self.preflight_enabled = preflight  # False only for positive-control experiments
         self.server_requests: list[ServerRequestRecord] = []
         self.wire: list[WireRecord] = []
         client = CodexClient(config=config, approval_handler=self._decline)
@@ -324,6 +325,19 @@ class BatchCodex(Codex):
         except Exception:
             self._client.close()
             raise
+
+    def thread_start(self, **kwargs: Any):  # type: ignore[override]
+        """Every batch thread is preflighted before any turn can run (centralized, spec 5.6)."""
+        thread = super().thread_start(**kwargs)
+        if self.preflight_enabled:
+            self.preflight_no_tool_servers(thread.id)
+        return thread
+
+    def thread_resume(self, thread_id: str, **kwargs: Any):  # type: ignore[override]
+        thread = super().thread_resume(thread_id, **kwargs)
+        if self.preflight_enabled:
+            self.preflight_no_tool_servers(thread.id)
+        return thread
 
     def _decline(self, method: str, params: JsonObject | None) -> JsonObject:
         summary = json.dumps(params or {}, sort_keys=True)[:300]
@@ -367,7 +381,7 @@ class BatchCodex(Codex):
         `mcp_servers.<name>.enabled=false` leaves the config entry visible in status.
         """
         inventory = self.tool_server_inventory(thread_id)
-        live = [s for s in inventory["mcp_servers"] if s["toolNames"] or s["runtimeStatus"] == "connected"]
+        live = [s for s in inventory["mcp_servers"] if s["toolNames"] or s["runtimeStatus"] != "disabled"]
         if live or inventory["apps"]:
             raise RuntimeError(f"batch preflight failed: tool servers exposed: {json.dumps(inventory)[:400]}")
         return inventory

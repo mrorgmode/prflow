@@ -1,11 +1,22 @@
-# Phase 0 handoff — 2026-09-10
+# Phase 0 handoff — 2026-09-10 (final)
 
 Stop before Phase 1. Read 0001-foundation.md for results and design decisions. SPEC.md is unchanged.
 
-36 offline tests pass. SDK pinned to 0.147.0; native runtime 0.154.0. Claude Fable implemented the experiments, Opus reviewed them, and Codex supervised and executed the GitHub test. Claude session 2647ced1-05fc-4ab6-9993-e55d26a06933 is finished. Follow AGENTS.md for future delegation.
+41 offline tests pass. SDK pinned to 0.147.0; native runtime 0.154.0. Claude Fable implemented the
+experiments, Opus reviewed them, Codex supervised and executed the GitHub test. Follow AGENTS.md for
+future delegation.
 
-A passed. B is blocked: installed SDK/runtime do not provide ExternalMessage; fallback semantics are exploratory only. C shell/gh network denial, escalation denial, and MCP/app exclusion have evidence. Inherited MCP definitions survive mcp_servers={}; explicit per-server disable plus fail-closed preflight passed positive controls. The final workspace-write tool-surface verification was refused by the Codex usage limit (reported retry time 23:48); it was not retried. Raw traces now auto-delete. E actual TUI startup and exit passed, but live generated-prompt handoff remains unverified.
+Status: A PASS. B BLOCKED (installed SDK/runtime provide no ExternalMessage; fallback semantics are
+exploratory only, not a substitute). C PASS on the final config after the quota reset: workspace_write
+turn, runtime-trace tool list `apply_patch, exec_command, view_image, write_stdin`, gh/curl denied,
+escalation rejected by the runtime, no MCP/apps, no edits; the preflight is now centralized in
+`BatchCodex.thread_start/thread_resume`. Inherited MCP definitions survive `mcp_servers={}`; per-server
+disable plus the fail-closed preflight is the policy. D PASS on https://github.com/mrorgmode/prflow/pull/1
+(do not repeat those mutations). E PASS: real TUI with the generated prompt, one tiny `gpt-5.6-luna` turn,
+assistant answered the derived marker, zero tool calls, workspace unchanged.
 
-D passed on https://github.com/mrorgmode/prflow/pull/1. User explicitly approved the fixture and broader pushes/branches/issues/PRs in this repository. Main was seeded with unchanged SPEC.md; the draft fixture PR contains a tiny test file, approved inline review and reply, and a resolved test thread. Leave it unmerged. Evidence: evidence/spike_d_live.json. Do not repeat completed mutations or ask again for their approval.
+Evidence history is preserved: `spike_c_isolation_run1_early_overrides.json` (first run, earlier override
+set), `spike_c_isolation_blocked.json` (usage-limit refusal), `spike_c_isolation.json` (final).
 
-Current branch: phase0/foundation, containing the experiments and report for review. No Phase 1 implementation. Remaining after quota reset: one final-config workspace-write C turn; actual generated-prompt E handoff. Discuss B's missing API and the observed MCP configuration behavior before deciding whether to revise the spec or proceed.
+Branch phase0/foundation, draft PR #2; the root session handles commit/push/PR updates. Next: discuss B's
+missing API and the MCP merge behaviour before deciding whether to revise the spec or proceed to Phase 1.

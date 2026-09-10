@@ -10,15 +10,17 @@ The user approved the disposable GitHub fixture and repository publication. All 
 |---|---|---|
 | A structured turn | **PASS** | `evidence/spike_a_structured_turn.json` |
 | B untrusted input | **BLOCKED** (fallback run is exploratory only) | `evidence/spike_b_untrusted_input.json` |
-| C batch isolation | **INCOMPLETE** (gh/shell/MCP/app paths verified; final workspace_write tool surface run **BLOCKED by usage limit**) | `evidence/spike_c_isolation.json`, `evidence/spike_c_toolsurface.json`, `evidence/spike_c_mcp_inherit.json`, `evidence/spike_c_isolation_blocked.json`, `evidence/probe_runtime_batch-0.154.0.json` |
+| C batch isolation | **PASS** on the final config (one workspace_write turn after the quota reset) | `evidence/spike_c_isolation.json`; history: `spike_c_isolation_run1_early_overrides.json`, `spike_c_isolation_blocked.json`, `spike_c_toolsurface.json`, `spike_c_mcp_inherit.json`, `probe_runtime_batch-0.154.0.json` |
 | C inherited MCP control | **PASS** with a required fix (see below) | `evidence/spike_c_mcp_inherit.json` |
 | C skill reuse | **REJECTED** for batch | same |
 | D GraphQL | **PASS** (read, reply, refresh, resolve, refresh) | `evidence/spike_d_live.json`; [test PR #1](https://github.com/mrorgmode/prflow/pull/1) |
-| E interactive handoff | **PARTIAL** (real TUI startup proven in a pty; prompt delivery proven by argv only) | `evidence/spike_e_interactive_smoke.json` |
+| E interactive handoff | **PASS** (real TUI, generated prompt, one tiny turn answered with the derived marker) | `evidence/spike_e_interactive_handoff.json`; startup-only smoke: `spike_e_interactive_smoke.json` |
 
 **Overall: batch mode is unavailable under the strict spec** because the published SDK does not
-provide `ExternalMessage` (6.1, 15.2). The launch policy itself (deny_all on thread and turn,
-explicit sandbox, network off, no apps/MCP) is implemented and verified on the wire.
+provide `ExternalMessage` (6.1, 15.2); B stays BLOCKED and Phase 0 cannot be all green. Everything else
+is done: the launch policy (deny_all on thread and turn, explicit sandbox, network off, no apps/MCP,
+centralized fail-closed preflight) is implemented and verified on the wire and in the runtime's own trace.
+Phase 0 investigation stops here for design discussion.
 
 ## Environment facts that differ from the spec's assumptions
 
@@ -60,8 +62,9 @@ explicit sandbox, network off, no apps/MCP) is implemented and verified on the w
   Extra overrides may not redefine any of these keys.
 - **`mcp_servers={}` does not remove inherited servers** (proven, see C). prflow must therefore read the
   effective `mcp_servers` names on a first launch, relaunch with `mcp_servers.<name>.enabled=false` for each
-  (`disable_overrides_for`), and always run `BatchCodex.preflight_no_tool_servers(thread_id)`, which raises if
-  any MCP server lists tools or reports `connected`, or if any app is listed. Disabled servers remain visible in
+  (`disable_overrides_for`). `BatchCodex.thread_start`/`thread_resume` now run
+  `preflight_no_tool_servers` automatically before any turn can start; it raises if any MCP server lists
+  tools or reports `connected`, or if any app is listed (only the positive-control script opts out). Disabled servers remain visible in
   `mcpServerStatus/list` with `runtimeStatus: disabled` and zero tools; that is tolerated.
 - Every evidence file written after the review records this configuration under `launch`; earlier files
   carry a `provenance` block stating which subset was active when they were produced.
@@ -85,7 +88,7 @@ semantic regression sample (one turn, low effort) the injected comment did not c
 The checker (`check_semantic_integrity`) is unit-tested against every injection dimension and is ready to
 be re-run unchanged once `ExternalMessage` ships. The fixture only exercises the "stay false" direction.
 
-## Spike C: INCOMPLETE; skill reuse REJECTED
+## Spike C: PASS; skill reuse REJECTED
 
 Verified, with tool-level evidence:
 
@@ -111,16 +114,25 @@ exposed to a batch thread with its tool (`runtimeStatus: connected`). With the f
 With `mcp_servers.prflow_dummy.enabled=false` added it shows `runtimeStatus: disabled`, zero tools, and the
 preflight passes. Both controls agree. Temporary files were removed.
 
-Not verified, therefore INCOMPLETE:
+Final run (after the quota reset; `evidence/spike_c_isolation.json`, launch config recorded at commit
+77a9f1d): one `gpt-5.6-luna` low `workspace_write` turn under the complete override set, with the runtime
+trace captured in a temporary directory and deleted afterwards. Results:
 
-- The one planned live `workspace_write` turn under the final config (runtime ALL_TOOLS dump through the
-  code-mode `exec` tool plus gh/curl/escalation, with automatic trace deletion) was **refused by the Codex
-  service: usage limit reached, retry after 23:48**. It was not retried. The earlier isolation run predates
-  the `web_search="disabled"` and `agents.max_depth=0` overrides, and the only traced run (read_only, final
-  overrides) showed the nested tools `apply_patch, create_goal, exec_command, get_goal, update_goal,
-  view_image, write_stdin` with no GitHub/MCP/web/multi-agent tools. The workspace_write surface under the
-  final config is therefore still an open item, not a claim.
-- `features.tool_suggest` and `auth_elicitation` remain true; effect unknown.
+- wire: `thread/start` and `turn/start` with `approvalPolicy: never`, `sandboxPolicy: workspaceWrite,
+  networkAccess: false`; runtime trace thread policy `WorkspaceWrite { network_access: false }`;
+- runtime `ALL_TOOLS` (produced by the code-mode isolate, not the model): `apply_patch, exec_command,
+  view_image, write_stdin`; no GitHub, MCP, app, web, or multi-agent tools; the exec-tool description agrees;
+- centralized preflight: 0 MCP servers, 0 apps in the thread;
+- the agent's `gh api user` ("error connecting") and `curl` (DNS failure) failed; it attempted escalation
+  and the runtime rejected it (`approval policy is Never`); no server request reached the client;
+- no file changes (`git status` unchanged, no FileChange items).
+
+History: the first isolation run (`spike_c_isolation_run1_early_overrides.json`) predates the
+`web_search="disabled"` and `agents.max_depth=0` overrides and is kept for comparison; one attempt was
+refused by the usage limit (`spike_c_isolation_blocked.json`).
+
+Known residuals (not blockers): `features.tool_suggest` and `auth_elicitation` remain true, effect unknown;
+the sandbox can read `~/.config/gh/hosts.yml`; output matching truncates at 1500 characters.
 - The sandbox can read `~/.config/gh/hosts.yml` (stored gh credential). Network isolation is the boundary,
   as the spec states, but this is a real residual and should be recorded in `doctor` later.
 - Output matching truncates command output at 1500 characters.
@@ -142,15 +154,18 @@ refetched before resolving; the last read confirmed resolution and another finge
 Only the approved fixture thread was mutated. The draft PR remains unmerged. The earlier public-PR
 read was supplementary. This small fixture does not establish pagination of threads with >50 comments.
 
-## Spike E: PARTIAL
+## Spike E: PASS
 
 `spikes/spike_e_interactive.py` builds the interactive prompt (work-item context, policy, delimited review
-data, staging preference, limitation notice) and the argv `codex --cd <repo> "<prompt>"`, and can launch
-it inheriting the terminal. `--smoke` started the real native TUI in a pseudo-terminal in this repository
-with the user's normal interactive configuration: it rendered its banner in about 1.2 s and exited with
-status 0 on Ctrl-C. No prompt was passed and no model turn ran, because the TUI has no option to load a
-positional prompt without submitting it. Prompt delivery is therefore proven only by argv construction; a
-full handoff (prompt submitted to the interactive model) is deliberately left to the human.
+data, staging preference, limitation notice) and the argv `codex --cd <repo> [-m model] "<prompt>"`.
+`--handoff` ran the real native TUI in a pseudo-terminal in this repository with the user's normal
+interactive configuration plus an explicit inexpensive model (`gpt-5.6-luna`, effort low), using a harmless
+synthetic `reply_only` work item (`fixtures/review_thread_handoff.json`) whose task asks for one line
+containing a token derived from the thread id and alias. Verification came from the session rollout, not
+the screen: the rollout's cwd is this repository, roles were developer/user/assistant, zero tool calls, and
+the single assistant message was exactly the token; the workspace was unchanged; the TUI exited 0 on quit
+keys about 5 s after start. Only the prompt hash, the token, and the final assistant text were retained.
+A startup-only smoke (`--smoke`, no prompt, no model turn) is also recorded.
 
 ## Decisions needed from a human
 
@@ -159,15 +174,16 @@ full handoff (prompt submitted to the interactive model) is deliberately left to
 2. Runtime policy: pin the native `codex` binary (0.154.0) via `codex_bin`, or wait for a published SDK
    whose bundled runtime is >= 0.151.0. Using two runtimes on one `~/.codex` has shown cache incompatibility.
 3. GitHub fixture approval and Spike D are complete; no further approval is needed for those completed actions.
-4. Re-run `spikes/spike_c_isolation.py` once after the usage limit resets (one short `gpt-5.6-luna` turn) to
-   verify the workspace_write tool surface under the final config before calling C complete.
-5. Accept the `mcp_servers.<name>.enabled=false` + preflight approach as the batch MCP policy for Phase 2.
+4. Accept the `mcp_servers.<name>.enabled=false` + centralized preflight approach as the batch MCP policy
+   for Phase 2.
 
 ## Offline tests
 
-`uv run pytest -q`: 36 passed. They cover deny_all mapping, wire serialization of `networkAccess: false`
+`uv run pytest -q`: 41 passed. They cover deny_all mapping, wire serialization of `networkAccess: false`
 for both sandboxes, locked policy kwargs, fail-closed unknown server requests, token stripping in argv,
 version gating, structured-output handling, Spike B semantic checks, Spike D fingerprints/argv, and the
 Spike E prompt/argv, plus trace analysis (non-vacuous), trace auto-cleanup, per-server MCP disable, the
 fail-closed preflight, and the dummy MCP server protocol. Raw runtime traces (they contain model reasoning)
 are now created and deleted by `rollout_trace.TraceCapture` in `finally`; evidence JSON is bounded and redacted.
+
+Final review tightened the MCP preflight to accept only explicitly disabled, tool-free server entries; starting or unknown states fail closed. Offline regression cases cover both states. This does not change the successful live run, which had zero MCP server entries.

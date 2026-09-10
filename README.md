@@ -52,6 +52,7 @@ uv run python spikes/spike_a_structured_turn.py
 uv run python spikes/spike_b_untrusted_input.py      # exit 2 = fallback delivery, exploratory only
 uv run python spikes/spike_c_isolation.py            # one workspace_write turn; captures and auto-deletes a runtime trace
 uv run python spikes/spike_c_toolsurface.py --reanalyze DIR   # only for a trace you deliberately kept
+uv run python spikes/spike_e_interactive.py --handoff        # real TUI + generated prompt, one tiny turn, marker verified from the rollout
 ```
 
 Evidence lands in `docs/spikes/evidence/*.json` (bounded, redacted, includes the
@@ -60,7 +61,7 @@ create them in a temporary directory and delete them in `finally`.
 
 ## Status
 
-Phase 0 is documented in `docs/spikes/0001-foundation.md`. Batch mode is
-**not yet available under the strict spec** because the published SDK lacks
-`ExternalMessage`; see that document for the per-spike status and decisions
-that need a human.
+Phase 0 is documented in `docs/spikes/0001-foundation.md`: A, C, D, E pass; B is
+**BLOCKED** because the published SDK lacks `ExternalMessage`, so batch mode is
+not yet available under the strict spec. Phase 0 stops here for design discussion;
+see that document for the decisions that need a human.

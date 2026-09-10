@@ -76,6 +76,8 @@ def test_preflight_fails_closed_on_live_server_or_app_but_tolerates_disabled(mon
         "live": ({"mcp_servers": [{"name": "d", "toolNames": ["t"], "runtimeStatus": "connected", "authStatus": None}], "apps": []}, True),
         "connected_no_tools": ({"mcp_servers": [{"name": "d", "toolNames": [], "runtimeStatus": "connected", "authStatus": None}], "apps": []}, True),
         "app": ({"mcp_servers": [], "apps": [{"id": "connector_x", "name": "GitHub"}]}, True),
+        "starting": ({"mcp_servers": [{"name": "d", "toolNames": [], "runtimeStatus": "starting", "authStatus": None}], "apps": []}, True),
+        "unknown": ({"mcp_servers": [{"name": "d", "toolNames": [], "runtimeStatus": None, "authStatus": None}], "apps": []}, True),
         "disabled": ({"mcp_servers": [{"name": "d", "toolNames": [], "runtimeStatus": "disabled", "authStatus": None}], "apps": []}, False),
         "empty": ({"mcp_servers": [], "apps": []}, False),
     }
@@ -99,3 +101,24 @@ def test_dummy_mcp_server_speaks_initialize_and_tools_list() -> None:
     replies = [json.loads(l) for l in proc.stdout.splitlines()]
     assert replies[0]["result"]["serverInfo"]["name"] == "prflow-dummy"
     assert [t["name"] for t in replies[1]["result"]["tools"]] == ["prflow_dummy_echo"]
+
+
+def test_thread_start_and_resume_run_centralized_preflight(monkeypatch) -> None:
+    calls: list[str] = []
+    monkeypatch.setattr(bl.Codex, "thread_start", lambda self, **kw: type("T", (), {"id": "t1"})())
+    monkeypatch.setattr(bl.Codex, "thread_resume", lambda self, tid, **kw: type("T", (), {"id": tid})())
+    monkeypatch.setattr(bl.BatchCodex, "preflight_no_tool_servers", lambda self, tid: calls.append(tid))
+    codex = bl.BatchCodex.__new__(bl.BatchCodex)
+    codex.preflight_enabled = True
+    assert codex.thread_start(sandbox=None).id == "t1"
+    assert codex.thread_resume("t2").id == "t2"
+    assert calls == ["t1", "t2"]
+    codex.preflight_enabled = False
+    codex.thread_start()
+    assert calls == ["t1", "t2"]
+
+
+def test_all_live_spikes_use_batch_codex_thread_start() -> None:
+    for name in ("spike_a_structured_turn.py", "spike_b_untrusted_input.py", "spike_c_isolation.py"):
+        src = (ROOT / "spikes" / name).read_text()
+        assert "BatchCodex(" in src and "codex.thread_start(" in src and "preflight=False" not in src

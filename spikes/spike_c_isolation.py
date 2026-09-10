@@ -137,7 +137,8 @@ def main() -> int:
             thread = codex.thread_start(
                 **thread_kwargs(Sandbox.workspace_write, cwd=str(repo_root()), model=MODEL, developer_instructions=DEVELOPER_INSTRUCTIONS)
             )
-            evidence["tool_server_inventory_thread"] = codex.preflight_no_tool_servers(thread.id)  # raises = fail closed
+            # thread_start already ran the centralized preflight (raises = fail closed); record the inventory.
+            evidence["tool_server_inventory_thread"] = codex.tool_server_inventory(thread.id)
             evidence["skill_reuse"] = skill_reuse_evidence(codex)
             result = thread.run(
             "Execute the harness steps now and report.",

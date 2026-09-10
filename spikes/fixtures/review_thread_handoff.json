@@ -1,0 +1,17 @@
+{
+  "alias": "T2",
+  "github_thread_id": "PRRT_kwDOHandoffFixture0002",
+  "resolved": false,
+  "outdated": false,
+  "path": "spikes/fixtures/review_target.py",
+  "line": 4,
+  "comments": [
+    {
+      "id": "PRRC_kwDOHandoffFixture0020",
+      "author": "reviewer-bob",
+      "body": "Small question, no code change needed: is the greeting helper's missing docstring intentional for this fixture? A one-line reply is enough.",
+      "created_at": "2026-09-10T18:00:00Z",
+      "updated_at": "2026-09-10T18:00:00Z"
+    }
+  ]
+}

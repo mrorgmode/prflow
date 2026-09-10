@@ -53,7 +53,7 @@ def launch_and_inventory(codex_bin: Path, overrides: tuple[str, ...], env_extra:
     config.env = {**(config.env or {}), **env_extra}
     out: dict[str, Any] = {"label": label, "mcp_servers_override_present": "mcp_servers={}" in overrides}
     try:
-        with BatchCodex(config) as codex:
+        with BatchCodex(config, preflight=False) as codex:  # positive control: exposure is expected
             cfg = codex.rpc("config/read", {"cwd": str(repo_root()), "includeLayers": False}).get("config", {})
             out["effective_mcp_servers_config"] = sorted((cfg.get("mcp_servers") or {}).keys())
             out["inventory_no_thread"] = codex.tool_server_inventory(None)
