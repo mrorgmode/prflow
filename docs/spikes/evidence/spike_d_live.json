@@ -1,0 +1,117 @@
+{
+  "repo": "mrorgmode/prflow",
+  "pr": 1,
+  "url": "https://github.com/mrorgmode/prflow/pull/1",
+  "status": "PASS",
+  "authorized_by": "explicit user approval in session",
+  "timestamp": "2026-09-10T19:47:15.662568+00:00",
+  "before": {
+    "github_thread_id": "PRRT_kwDOUVk9os6hONVS",
+    "resolved": false,
+    "outdated": false,
+    "path": "spikes/fixtures/review_target.py",
+    "line": 4,
+    "original_line": 4,
+    "comments": [
+      {
+        "id": "PRRC_kwDOUVk9os7tZemn",
+        "database_id": 3982879143,
+        "author": "mrorgmode",
+        "body": "Codex: Phase 0 test review: please explain whether this greeting helper intentionally omits punctuation. No code change is requested; this thread is a disposable API fixture.",
+        "created_at": "2026-09-10T19:46:52Z",
+        "updated_at": "2026-09-10T19:46:53Z",
+        "url": "https://github.com/mrorgmode/prflow/pull/1#discussion_r3982879143"
+      }
+    ],
+    "source_fingerprint": "sha256:72206faca5bef168acad0216b0a117171a21bb9f4a751637411a912c7ee158a4"
+  },
+  "pull_request": {
+    "id": "PR_kwDOUVk9os8AAAABDC-qDw",
+    "number": 1,
+    "headRefOid": "ae82ca2dfec7519624c683a3839e5d972cd5cd67",
+    "headRefName": "spike/phase0-review-fixture",
+    "baseRefName": "main",
+    "isDraft": true,
+    "url": "https://github.com/mrorgmode/prflow/pull/1"
+  },
+  "reply_result": {
+    "data": {
+      "addPullRequestReviewThreadReply": {
+        "comment": {
+          "id": "PRRC_kwDOUVk9os7tZfTL",
+          "databaseId": 3982881995,
+          "url": "https://github.com/mrorgmode/prflow/pull/1#discussion_r3982881995",
+          "createdAt": "2026-09-10T19:47:16Z"
+        }
+      }
+    }
+  },
+  "after_reply": {
+    "github_thread_id": "PRRT_kwDOUVk9os6hONVS",
+    "resolved": false,
+    "outdated": false,
+    "path": "spikes/fixtures/review_target.py",
+    "line": 4,
+    "original_line": 4,
+    "comments": [
+      {
+        "id": "PRRC_kwDOUVk9os7tZemn",
+        "database_id": 3982879143,
+        "author": "mrorgmode",
+        "body": "Codex: Phase 0 test review: please explain whether this greeting helper intentionally omits punctuation. No code change is requested; this thread is a disposable API fixture.",
+        "created_at": "2026-09-10T19:46:52Z",
+        "updated_at": "2026-09-10T19:46:53Z",
+        "url": "https://github.com/mrorgmode/prflow/pull/1#discussion_r3982879143"
+      },
+      {
+        "id": "PRRC_kwDOUVk9os7tZfTL",
+        "database_id": 3982881995,
+        "author": "mrorgmode",
+        "body": "Codex: Phase 0 test reply: punctuation is intentionally omitted in this disposable fixture. This reply verifies the deterministic review-thread API; no production change is implied.",
+        "created_at": "2026-09-10T19:47:16Z",
+        "updated_at": "2026-09-10T19:47:16Z",
+        "url": "https://github.com/mrorgmode/prflow/pull/1#discussion_r3982881995"
+      }
+    ],
+    "source_fingerprint": "sha256:d8bae99476f2caf219d297d21d8c4cf2a06df389048acf8fe257bf8b1e33f384"
+  },
+  "resolve_result": {
+    "data": {
+      "resolveReviewThread": {
+        "thread": {
+          "id": "PRRT_kwDOUVk9os6hONVS",
+          "isResolved": true
+        }
+      }
+    }
+  },
+  "after_resolve": {
+    "github_thread_id": "PRRT_kwDOUVk9os6hONVS",
+    "resolved": true,
+    "outdated": false,
+    "path": "spikes/fixtures/review_target.py",
+    "line": 4,
+    "original_line": 4,
+    "comments": [
+      {
+        "id": "PRRC_kwDOUVk9os7tZemn",
+        "database_id": 3982879143,
+        "author": "mrorgmode",
+        "body": "Codex: Phase 0 test review: please explain whether this greeting helper intentionally omits punctuation. No code change is requested; this thread is a disposable API fixture.",
+        "created_at": "2026-09-10T19:46:52Z",
+        "updated_at": "2026-09-10T19:46:53Z",
+        "url": "https://github.com/mrorgmode/prflow/pull/1#discussion_r3982879143"
+      },
+      {
+        "id": "PRRC_kwDOUVk9os7tZfTL",
+        "database_id": 3982881995,
+        "author": "mrorgmode",
+        "body": "Codex: Phase 0 test reply: punctuation is intentionally omitted in this disposable fixture. This reply verifies the deterministic review-thread API; no production change is implied.",
+        "created_at": "2026-09-10T19:47:16Z",
+        "updated_at": "2026-09-10T19:47:16Z",
+        "url": "https://github.com/mrorgmode/prflow/pull/1#discussion_r3982881995"
+      }
+    ],
+    "source_fingerprint": "sha256:cee8af04e4048bfd1520c0793522e132f8c476861312c597cecb4c61ed673aee"
+  }
+}

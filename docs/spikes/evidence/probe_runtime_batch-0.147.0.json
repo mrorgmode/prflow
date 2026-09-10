@@ -1,0 +1,181 @@
+{
+  "baseline": {
+    "apps_no_thread": {
+      "app/installed": {
+        "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+      },
+      "app/list": {
+        "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+      }
+    },
+    "config": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "initialize": {
+      "serverName": "codex_python_sdk",
+      "serverVersion": "0.147.0 (Ubuntu 26.4.0; x86_64) xterm-256color (codex_python_sdk; 0.147.0)",
+      "userAgent": "codex_python_sdk/0.147.0 (Ubuntu 26.4.0; x86_64) xterm-256color (codex_python_sdk; 0.147.0)"
+    },
+    "label": "baseline-sdk-default",
+    "mcp_no_thread": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "models": [
+      {
+        "defaultEffort": "low",
+        "hidden": false,
+        "isDefault": true,
+        "model": "gpt-5.6-sol"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.6-terra"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.6-luna"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.5"
+      }
+    ],
+    "permissionProfiles": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "skills": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "stderr_tail": null
+  },
+  "batch": {
+    "apps_no_thread": {
+      "app/installed": {
+        "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+      },
+      "app/list": {
+        "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+      }
+    },
+    "apps_thread": {
+      "app/installed": {
+        "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+      },
+      "app/list": {
+        "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+      }
+    },
+    "config": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "initialize": {
+      "serverName": "prflow_spike",
+      "serverVersion": "0.147.0 (Ubuntu 26.4.0; x86_64) xterm-256color (prflow_spike; 0.147.0)",
+      "userAgent": "prflow_spike/0.147.0 (Ubuntu 26.4.0; x86_64) xterm-256color (prflow_spike; 0.147.0)"
+    },
+    "label": "batch-0.147.0",
+    "mcp_no_thread": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "mcp_thread": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "models": [
+      {
+        "defaultEffort": "low",
+        "hidden": false,
+        "isDefault": true,
+        "model": "gpt-5.6-sol"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.6-terra"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.6-luna"
+      },
+      {
+        "defaultEffort": "medium",
+        "hidden": false,
+        "isDefault": false,
+        "model": "gpt-5.5"
+      }
+    ],
+    "permissionProfiles": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "server_requests": [],
+    "skills": {
+      "error": "CodexClient.request() missing 1 required keyword-only argument: 'response_model'"
+    },
+    "stderr_tail": [
+      "2026-09-10T19:21:23.461728Z ERROR codex_app_server: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.c",
+      "2026-09-10T19:21:23.561565Z ERROR codex_models_manager::manager: failed to load models cache: missing field `supports_parallel_tool_calls` at line 133 column 5"
+    ],
+    "thread": {
+      "id": "01a08cc4-82d7-7da2-b643-8af1de36704f"
+    },
+    "thread_archive_error": "JSON-RPC error -32600: no rollout found for thread id 01a08cc4-82d7-7da2-b643-8af1de36704f",
+    "thread_start_wire": [
+      {
+        "method": "thread/start",
+        "params": {
+          "approvalPolicy": "never",
+          "cwd": "/home/dev/proj/prflow",
+          "developerInstructions": "probe only; no turn will run",
+          "ephemeral": true,
+          "sandbox": "read-only"
+        },
+        "response": {
+          "approvalPolicy": "never",
+          "approvalsReviewer": "user",
+          "cliVersion": "0.147.0",
+          "cwd": "/home/dev/proj/prflow",
+          "model": "gpt-6-astra",
+          "reasoningEffort": "medium",
+          "sandbox": {
+            "networkAccess": false,
+            "type": "readOnly"
+          },
+          "threadId": "01a08cc4-82d7-7da2-b643-8af1de36704f"
+        }
+      }
+    ]
+  },
+  "config_overrides": [
+    "approval_policy=\"never\"",
+    "sandbox_mode=\"read-only\"",
+    "sandbox_workspace_write.network_access=false",
+    "features.apps=false",
+    "features.plugins=false",
+    "features.remote_plugin=false",
+    "features.skill_mcp_dependency_install=false",
+    "include_apps_instructions=false",
+    "mcp_servers={}",
+    "tools.web_search=false",
+    "features.browser_use=false",
+    "features.computer_use=false",
+    "features.image_generation=false",
+    "features.multi_agent=false",
+    "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]"
+  ],
+  "runtime_check": {
+    "batch_ready_for_external_message": false,
+    "codex_bin": "/home/dev/proj/prflow/.venv/lib/python3.14/site-packages/codex_cli_bin/bin/codex",
+    "runtime_meets_external_message_minimum": false,
+    "runtime_version": "0.147.0",
+    "sdk_external_message": false,
+    "sdk_version": "0.147.0"
+  }
+}

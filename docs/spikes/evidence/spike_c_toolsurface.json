@@ -1,0 +1,183 @@
+{
+  "all_tool_names": [
+    "apply_patch",
+    "create_goal",
+    "exec",
+    "exec_command",
+    "functions",
+    "get_goal",
+    "request_user_input",
+    "update_goal",
+    "view_image",
+    "wait",
+    "write_stdin"
+  ],
+  "checks": {
+    "deny_all_and_read_only_on_wire": true,
+    "no_github_or_mcp_or_app_tools": true,
+    "no_multi_agent_tools": true,
+    "no_server_requests": true,
+    "no_web_search_tool": true,
+    "runtime_all_tools_captured": true,
+    "trace_captured": true
+  },
+  "event_types": [
+    "code_cell_ended",
+    "code_cell_initial_response",
+    "code_cell_started",
+    "codex_turn_ended",
+    "codex_turn_started",
+    "inference_completed",
+    "inference_started",
+    "protocol_event_observed",
+    "rollout_started",
+    "thread_started"
+  ],
+  "model": "gpt-5.6-luna",
+  "nested_code_mode_tools_from_exec_description": [
+    "apply_patch",
+    "create_goal",
+    "exec_command",
+    "get_goal",
+    "update_goal",
+    "view_image",
+    "write_stdin"
+  ],
+  "payload_files": [
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/1.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/10.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/2.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/3.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/4.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/5.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/6.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/7.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/8.json",
+    "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/9.json"
+  ],
+  "provenance": {
+    "config_overrides_at_run": [
+      "approval_policy=\"never\"",
+      "sandbox_mode=\"read-only\"",
+      "sandbox_workspace_write.network_access=false",
+      "features.apps=false",
+      "features.plugins=false",
+      "features.remote_plugin=false",
+      "features.skill_mcp_dependency_install=false",
+      "include_apps_instructions=false",
+      "mcp_servers={}",
+      "web_search=\"disabled\"",
+      "tools.web_search=false",
+      "features.browser_use=false",
+      "features.computer_use=false",
+      "features.image_generation=false",
+      "features.multi_agent=false",
+      "agents.max_depth=0",
+      "shell_environment_policy.exclude=[...]"
+    ],
+    "git_commit": null,
+    "note": "2026-09-10 ~19:40 UTC, gpt-5.6-luna low, 1 read_only turn; final override set; nested tool list from runtime ALL_TOOLS output in trace payload",
+    "runtime": "codex-cli 0.154.0 (PRFLOW_CODEX_BIN)",
+    "sdk": "openai-codex 0.147.0"
+  },
+  "runtime_ALL_TOOLS": [
+    "apply_patch",
+    "create_goal",
+    "exec_command",
+    "get_goal",
+    "update_goal",
+    "view_image",
+    "write_stdin"
+  ],
+  "server_requests": [],
+  "thread_policy_from_runtime_trace": {
+    "approval_policy": "never",
+    "model": "gpt-5.6-luna",
+    "sandbox_policy": "ReadOnly { network_access: false }"
+  },
+  "tool_surfaces": [
+    {
+      "tool_names": [
+        "functions"
+      ],
+      "where": "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/4.json/input[0]/tools"
+    },
+    {
+      "tool_names": [
+        "exec",
+        "wait",
+        "request_user_input"
+      ],
+      "where": "trace-98d21f78-dabb-460d-bc6d-e906cbd5fe8b-01a08cd4-0d8b-7050-85d5-d9ac8393a84c/payloads/4.json/input[0]/tools[0]/tools"
+    }
+  ],
+  "trace_root": "/tmp/prflow-trace-3gsvn3gt",
+  "turn": {
+    "status": "completed",
+    "structured": {
+      "ok": true
+    },
+    "usage": {
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 0,
+      "input_tokens": 14620,
+      "output_tokens": 54,
+      "reasoning_output_tokens": 11,
+      "total_tokens": 14674
+    }
+  },
+  "wire": [
+    {
+      "method": "thread/start",
+      "params": {
+        "approvalPolicy": "never",
+        "cwd": "/home/dev/proj/prflow",
+        "developerInstructions": "Test harness. Use the exec tool exactly once as the user instructs, then answer only with JSON.",
+        "ephemeral": false,
+        "model": "gpt-5.6-luna",
+        "sandbox": "read-only"
+      },
+      "response": {
+        "approvalPolicy": "never",
+        "approvalsReviewer": "user",
+        "cliVersion": "0.154.0",
+        "cwd": "/home/dev/proj/prflow",
+        "model": "gpt-5.6-luna",
+        "reasoningEffort": "medium",
+        "sandbox": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "threadId": "01a08cd4-0d8b-7050-85d5-d9ac8393a84c"
+      }
+    },
+    {
+      "method": "turn/start",
+      "params": {
+        "approvalPolicy": "never",
+        "effort": "low",
+        "model": "gpt-5.6-luna",
+        "outputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "ok"
+          ],
+          "type": "object"
+        },
+        "sandboxPolicy": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "threadId": "01a08cd4-0d8b-7050-85d5-d9ac8393a84c"
+      },
+      "response": {
+        "turnId": "01a08cd4-0e05-7b61-b30e-49ee5ad46023"
+      }
+    }
+  ]
+}

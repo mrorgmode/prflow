@@ -1,0 +1,269 @@
+{
+  "checks": {
+    "repo_config": {
+      "batch_preflight_fails_closed_when_exposed": true,
+      "mcp_servers_empty_override_removes_dummy": false,
+      "per_server_disable_removes_dummy": true,
+      "positive_control_exposes_dummy": true
+    },
+    "temp_home": {
+      "batch_preflight_fails_closed_when_exposed": true,
+      "mcp_servers_empty_override_removes_dummy": false,
+      "per_server_disable_removes_dummy": true,
+      "positive_control_exposes_dummy": true
+    }
+  },
+  "control_repo_config": {
+    "batch": {
+      "effective_mcp_servers_config": [
+        "prflow_dummy"
+      ],
+      "inventory_no_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": null,
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "inventory_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": "connected",
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "label": "repo-config/batch",
+      "mcp_servers_override_present": true,
+      "preflight": "raised: batch preflight failed: tool servers exposed: {\"mcp_servers\": [{\"name\": \"prflow_dummy\", \"toolNames\": [\"prflow_dummy_echo\"], \"runtimeStatus\": \"connected\", \"authStatus\": \"unsupported\"}], \"apps\": []}",
+      "stderr_tail": []
+    },
+    "batch_with_disable": {
+      "disable_overrides": [
+        "mcp_servers.prflow_dummy.enabled=false"
+      ],
+      "effective_mcp_servers_config": [
+        "prflow_dummy"
+      ],
+      "inventory_no_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": null,
+            "toolNames": []
+          }
+        ]
+      },
+      "inventory_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": "disabled",
+            "toolNames": []
+          }
+        ]
+      },
+      "label": "repo-config/batch+disable",
+      "mcp_servers_override_present": true,
+      "preflight": "passed",
+      "stderr_tail": []
+    },
+    "codex_home": "real (~/.codex), repo-level .codex/config.toml injected temporarily",
+    "positive_control": {
+      "effective_mcp_servers_config": [
+        "prflow_dummy"
+      ],
+      "inventory_no_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": null,
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "inventory_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": "connected",
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "label": "repo-config/no-mcp-override",
+      "mcp_servers_override_present": false,
+      "preflight": "raised: batch preflight failed: tool servers exposed: {\"mcp_servers\": [{\"name\": \"prflow_dummy\", \"toolNames\": [\"prflow_dummy_echo\"], \"runtimeStatus\": \"connected\", \"authStatus\": \"unsupported\"}], \"apps\": []}",
+      "stderr_tail": []
+    }
+  },
+  "control_temp_codex_home": {
+    "batch": {
+      "effective_mcp_servers_config": [
+        "prflow_dummy"
+      ],
+      "inventory_no_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": null,
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "inventory_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": "connected",
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "label": "temp-home/batch",
+      "mcp_servers_override_present": true,
+      "preflight": "raised: batch preflight failed: tool servers exposed: {\"mcp_servers\": [{\"name\": \"prflow_dummy\", \"toolNames\": [\"prflow_dummy_echo\"], \"runtimeStatus\": \"connected\", \"authStatus\": \"unsupported\"}], \"apps\": []}",
+      "stderr_tail": [
+        "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/"
+      ]
+    },
+    "batch_with_disable": {
+      "disable_overrides": [
+        "mcp_servers.prflow_dummy.enabled=false"
+      ],
+      "effective_mcp_servers_config": [
+        "prflow_dummy"
+      ],
+      "inventory_no_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": null,
+            "toolNames": []
+          }
+        ]
+      },
+      "inventory_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": "disabled",
+            "toolNames": []
+          }
+        ]
+      },
+      "label": "temp-home/batch+disable",
+      "mcp_servers_override_present": true,
+      "preflight": "passed",
+      "stderr_tail": [
+        "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/"
+      ]
+    },
+    "codex_home": "temporary (no auth files)",
+    "positive_control": {
+      "effective_mcp_servers_config": [
+        "prflow_dummy"
+      ],
+      "inventory_no_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": null,
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "inventory_thread": {
+        "apps": [],
+        "mcp_servers": [
+          {
+            "authStatus": "unsupported",
+            "name": "prflow_dummy",
+            "runtimeStatus": "connected",
+            "toolNames": [
+              "prflow_dummy_echo"
+            ]
+          }
+        ]
+      },
+      "label": "temp-home/no-mcp-override",
+      "mcp_servers_override_present": false,
+      "preflight": "raised: batch preflight failed: tool servers exposed: {\"mcp_servers\": [{\"name\": \"prflow_dummy\", \"toolNames\": [\"prflow_dummy_echo\"], \"runtimeStatus\": \"connected\", \"authStatus\": \"unsupported\"}], \"apps\": []}",
+      "stderr_tail": [
+        "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/"
+      ]
+    }
+  },
+  "dummy_server": "spikes/dummy_mcp_server.py",
+  "launch": {
+    "codex_bin_env": "/home/dev/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl/bin/codex",
+    "config_overrides": [
+      "approval_policy=\"never\"",
+      "sandbox_mode=\"read-only\"",
+      "sandbox_workspace_write.network_access=false",
+      "features.apps=false",
+      "features.plugins=false",
+      "features.remote_plugin=false",
+      "features.skill_mcp_dependency_install=false",
+      "include_apps_instructions=false",
+      "mcp_servers={}",
+      "web_search=\"disabled\"",
+      "tools.web_search=false",
+      "features.browser_use=false",
+      "features.computer_use=false",
+      "features.image_generation=false",
+      "features.multi_agent=false",
+      "agents.max_depth=0",
+      "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]"
+    ],
+    "git_commit": "6165aada5c2f49b389f62f308e0cf9abdba35a3a",
+    "sdk_version": "0.147.0",
+    "stripped_env_vars": [
+      "GH_TOKEN",
+      "GITHUB_TOKEN",
+      "GITHUB_PAT_TOKEN",
+      "GH_ENTERPRISE_TOKEN",
+      "GITHUB_ENTERPRISE_TOKEN"
+    ],
+    "unknown_server_request_policy": "abort (handler raises)"
+  }
+}
