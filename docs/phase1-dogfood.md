@@ -1,5 +1,17 @@
 # Phase 1 dogfood record — 2026-09-10
 
+## User reflections
+
+2026-09-11: `uv run prflow review show t1` successfully exposed the review text,
+but the user found the agent-authored fixture comment difficult to understand.
+This suggests a future opportunity to clarify or rewrite staged review text before
+publishing it. A preset action, a free-text instruction, and an interactive Codex
+handoff remain UX alternatives for planner discussion. Recorded in
+[future ideas](future-plans.md#clarify-staged-review-text-before-publication);
+no feature or SPEC change has been made.
+
+## Original validation
+
 Real, read-only runs of the Phase 1 CLI against `mrorgmode/prflow`, from the
 `phase1/orientation` checkout (draft PR #3, stacked on PR #2). No GitHub mutation was
 made; the only writes are this checkout's `.git/prflow/state.json`. Runs used
