@@ -68,7 +68,8 @@ prflow review show T1    # one thread with all comments, diff hunk and links (al
 files and changes no Git/Codex configuration. Batch mode is reported `UNAVAILABLE` or
 `UNVERIFIED`, never ready. The published `openai-codex 0.147.0` lacks
 `ExternalMessage`, its bundled runtime is older than 0.151.0, the pair feature probe
-is not implemented, and Spike F (credential reads) is pending.
+is not implemented, and the Spike F credential-read findings await design review.
+The Phase 1 doctor retains its original conservative batch-readiness checks.
 
 Real results on this repository's PRs are recorded in [docs/phase1-dogfood.md](docs/phase1-dogfood.md).
 Future user-requested ideas, including opening review locations in Emacs, are tracked in
@@ -128,3 +129,11 @@ uv run python spikes/spike_e_interactive.py --handoff
 ```
 
 Evidence lands in `docs/spikes/evidence/*.json` (bounded and redacted).
+
+Spike F (credential-read surface, required before Phase 2) is documented in
+[docs/spikes/0002-credential-read.md](docs/spikes/0002-credential-read.md). Reproduce it with
+`uv run python spikes/spike_f_credential_read.py` (no model turn; add `--live-turn` for one
+short `gpt-5.6-luna`/low batch turn). Its offline tests are in `tests/test_spike_f.py`.
+Amendment F.1 (a profile extending `:workspace`, normal checkout plus linked worktree, no model turn)
+is reproduced with `uv run python spikes/spike_f1_workspace_profile.py [--compare-bin PATH]`. Its
+tests are in `tests/test_spike_f1.py`.
