@@ -18,6 +18,16 @@ count only, never names) and whether it can be traversed (``stat`` of ``.``).
 
 Output is bracketed by BEGIN/END sentinel lines so that a sandbox that failed to
 start, or a probe that crashed part way, can never be mistaken for BLOCKED.
+
+Spike F.1 (opt-in spec keys, v1 specs behave as before):
+
+* ``"write_targets": [{"id", "path", "op": "append"|"create"|"mkdir"}]`` checks write
+  permission without changing content: ``append`` opens an existing file for writing and
+  closes it without writing a byte; ``create``/``mkdir`` make a new entry and remove it at
+  once. Status words: ``WRITABLE``, ``BLOCKED`` (EACCES/EPERM), ``READONLY`` (EROFS),
+  ``MISSING``, ``ERROR:*``.
+* ``"git": true`` runs read-only Git commands, one Git config write attempt (removed again
+  if it succeeds) and reports the absolute metadata paths Git resolves.
 """
 
 from __future__ import annotations
@@ -30,7 +40,18 @@ import sys
 
 BEGIN = "PRFLOW_SPIKE_F_PROBE_BEGIN"
 END = "PRFLOW_SPIKE_F_PROBE_END"
-PROBE_VERSION = 1
+PROBE_VERSION = 2
+
+GIT_PATH_KEYS = ("toplevel", "git_dir", "common_dir", "git_path_prflow")
+GIT_PATH_ARGS = ("rev-parse", "--path-format=absolute", "--show-toplevel", "--git-dir", "--git-common-dir", "--git-path", "prflow")
+GIT_READ_OPS = (
+    ("git_status", ["git", "status", "--porcelain"]),
+    ("git_log", ["git", "log", "-1", "--format=%h"]),
+    ("git_diff", ["git", "diff", "--stat"]),
+    ("git_diff_cached", ["git", "diff", "--cached", "--stat"]),
+    ("git_show_head", ["git", "show", "--stat", "HEAD"]),
+    ("git_rev_parse", ["git", *GIT_PATH_ARGS]),
+)
 
 
 def _errno_status(exc: OSError) -> str:
@@ -126,12 +147,66 @@ def workspace_ops() -> dict[str, str]:
         ("python_child", [sys.executable, "-I", "-S", "-c", "import json"]),
         ("read_repo_file", ["head", "-c", "1", "README.md"]),
     ):
-        try:
-            proc = subprocess.run(argv, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
-            ops[label] = "OK" if proc.returncode == 0 else f"EXIT{proc.returncode}"
-        except (OSError, subprocess.SubprocessError) as exc:
-            ops[label] = f"ERROR:{type(exc).__name__}"
+        ops[label] = _run_status(argv)
     return ops
+
+
+def _run_status(argv: list[str]) -> str:
+    try:
+        proc = subprocess.run(argv, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
+        return "OK" if proc.returncode == 0 else f"EXIT{proc.returncode}"
+    except (OSError, subprocess.SubprocessError) as exc:
+        return f"ERROR:{type(exc).__name__}"
+
+
+def _write_status(exc: OSError) -> str:
+    if exc.errno == errno.EROFS:
+        return "READONLY"
+    if exc.errno == errno.EEXIST:
+        return "ERROR:EEXIST"  # a create probe must target a fresh name; never read as blocked
+    return _errno_status(exc)
+
+
+def write_attempt(target: dict[str, object]) -> str:
+    """Write-permission check that leaves content unchanged (see module doc)."""
+    path, op = str(target["path"]), target.get("op")
+    cloexec = getattr(os, "O_CLOEXEC", 0)
+    try:
+        if op == "append":
+            os.close(os.open(path, os.O_WRONLY | os.O_APPEND | os.O_NOCTTY | cloexec))  # no byte written
+            return "WRITABLE"
+        if op == "create":
+            os.close(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | cloexec, 0o600))
+            remove = os.unlink
+        elif op == "mkdir":
+            os.mkdir(path, 0o700)
+            remove = os.rmdir
+        else:
+            return "ERROR:BAD_OP"
+    except OSError as exc:
+        return _write_status(exc)
+    try:
+        remove(path)
+    except OSError:
+        return "WRITABLE_NOT_REMOVED"
+    return "WRITABLE"
+
+
+def git_checks() -> dict[str, object]:
+    """Read-only Git commands, one config write attempt, and the metadata paths Git resolves."""
+    read = {label: _run_status(argv) for label, argv in GIT_READ_OPS}
+    config_set = _run_status(["git", "config", "--local", "prflow.f1probe", "1"])
+    if config_set == "OK":  # only possible where metadata is writable (positive control)
+        _run_status(["git", "config", "--local", "--remove-section", "prflow"])
+    paths: object = None
+    try:
+        proc = subprocess.run(["git", *GIT_PATH_ARGS], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, timeout=30)
+        lines = proc.stdout.splitlines()
+        if proc.returncode == 0 and len(lines) == len(GIT_PATH_KEYS):
+            paths = dict(zip(GIT_PATH_KEYS, lines))
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return {"git_ops": read, "git_write_ops": {"git_config_set": config_set}, "git_paths": paths}
 
 
 def network_check() -> str:
@@ -153,8 +228,12 @@ def main(argv: list[str]) -> int:
         "uid": os.getuid(),
         "targets": [probe_target(t) for t in spec.get("targets", [])],
     }
+    if "write_targets" in spec:
+        result["write_targets"] = [{"id": w["id"], "op": w.get("op"), "write": write_attempt(w)} for w in spec["write_targets"]]
     if spec.get("workspace_ops"):
         result["workspace_ops"] = workspace_ops()
+    if spec.get("git"):
+        result.update(git_checks())
     if spec.get("network"):
         result["network"] = network_check()
     print(json.dumps(result, sort_keys=True), flush=True)

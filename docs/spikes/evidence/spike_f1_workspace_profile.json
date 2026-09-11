@@ -1,0 +1,2026 @@
+{
+  "expected_active_profile": {
+    "extends": ":workspace",
+    "id": "prflow_batch"
+  },
+  "launch": {
+    "codex_bin_env": null,
+    "config_overrides": [
+      "approval_policy=\"never\"",
+      "sandbox_mode=\"read-only\"",
+      "sandbox_workspace_write.network_access=false",
+      "features.apps=false",
+      "features.plugins=false",
+      "features.remote_plugin=false",
+      "features.skill_mcp_dependency_install=false",
+      "include_apps_instructions=false",
+      "mcp_servers={}",
+      "web_search=\"disabled\"",
+      "tools.web_search=false",
+      "features.browser_use=false",
+      "features.computer_use=false",
+      "features.image_generation=false",
+      "features.multi_agent=false",
+      "agents.max_depth=0",
+      "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]"
+    ],
+    "git_commit": "e13662812a5f845f6a29a390df8f22cd82e3041a",
+    "sdk_version": "0.147.0",
+    "stripped_env_vars": [
+      "GH_TOKEN",
+      "GITHUB_TOKEN",
+      "GITHUB_PAT_TOKEN",
+      "GH_ENTERPRISE_TOKEN",
+      "GITHUB_ENTERPRISE_TOKEN"
+    ],
+    "unknown_server_request_policy": "abort (handler raises)"
+  },
+  "platform": {
+    "bwrap": "bubblewrap 0.11.1",
+    "codex_bin": "~/.local/bin/codex",
+    "codex_version": "0.154.0",
+    "kernel": "7.0.0-31-generic",
+    "os": "Ubuntu 26.04.1 LTS",
+    "python_in_sandbox": "Python 3.14.4",
+    "sdk_version": "0.147.0",
+    "uid": 1000
+  },
+  "profile_id": "prflow_batch",
+  "runtimes": {
+    "compare": {
+      "checkouts": {
+        "linked_worktree": {
+          "app_server": {
+            "active_profile_ok": true,
+            "config_read": {
+              "approval_policy": "never",
+              "default_permissions": "prflow_batch",
+              "profile_extends": ":workspace",
+              "profile_filesystem_keys_extra": [
+                "glob_scan_max_depth"
+              ],
+              "profile_filesystem_keys_match": false,
+              "profile_filesystem_keys_missing": [],
+              "profile_network": {
+                "allow_local_binding": null,
+                "allow_upstream_proxy": null,
+                "dangerously_allow_all_unix_sockets": null,
+                "dangerously_allow_non_loopback_proxy": null,
+                "domains": null,
+                "enable_socks5": null,
+                "enable_socks5_udp": null,
+                "enabled": false,
+                "mitm": null,
+                "mode": null,
+                "proxy_url": null,
+                "socks_url": null,
+                "unix_sockets": null
+              },
+              "profile_present": true,
+              "sandbox_mode": null,
+              "sandbox_workspace_write": null
+            },
+            "exec_config_default": {
+              "failures": [],
+              "inconclusive": [],
+              "run": {
+                "exit_code": 0,
+                "git_ops": {
+                  "git_diff": "OK",
+                  "git_diff_cached": "OK",
+                  "git_log": "OK",
+                  "git_rev_parse": "OK",
+                  "git_show_head": "OK",
+                  "git_status": "OK"
+                },
+                "git_paths": {
+                  "common_dir": "<TMP>/ws/.git",
+                  "git_dir": "<TMP>/ws/.git/worktrees/wt",
+                  "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+                  "toplevel": "<TMP>/wt"
+                },
+                "git_write_ops": {
+                  "git_config_set": "EXIT255"
+                },
+                "network": "BLOCKED",
+                "ok": true,
+                "reason": null,
+                "targets": {
+                  "alias_dotdot": "BLOCKED",
+                  "alias_proc_root": "BLOCKED",
+                  "alias_symlink_in_ws": "BLOCKED",
+                  "codex_auth": "BLOCKED/sub:BLOCKED",
+                  "general_home_file": "MISSING",
+                  "gh_hosts": "BLOCKED/sub:BLOCKED",
+                  "gnupg_dir": "BLOCKED",
+                  "gnupg_key": "BLOCKED",
+                  "meta_common_config": "READABLE",
+                  "meta_common_head": "READABLE",
+                  "meta_gitfile": "READABLE",
+                  "meta_head": "READABLE",
+                  "meta_hook_existing": "READABLE",
+                  "meta_index": "READABLE",
+                  "meta_objects_dir": "LISTABLE",
+                  "meta_prflow_state": "READABLE",
+                  "meta_refs_heads_dir": "LISTABLE",
+                  "residual_preexisting_hardlink": "READABLE",
+                  "sibling_checkout_file": "MISSING",
+                  "ssh_dir": "BLOCKED",
+                  "ssh_key": "BLOCKED/sub:BLOCKED",
+                  "ws_env": "BLOCKED/sub:BLOCKED",
+                  "ws_env_nested": "BLOCKED"
+                },
+                "uid": 1000,
+                "workspace_ops": {
+                  "git_log": "OK",
+                  "git_status": "OK",
+                  "python_child": "OK",
+                  "read_repo_file": "OK",
+                  "write_read_back": "OK"
+                },
+                "writes": {
+                  "common_head_modify": "READONLY",
+                  "config_modify": "READONLY",
+                  "gitfile_modify": "READONLY",
+                  "head_modify": "READONLY",
+                  "hooks_create": "READONLY",
+                  "hooks_modify": "READONLY",
+                  "index_modify": "READONLY",
+                  "objects_create": "READONLY",
+                  "prflow_state_create": "READONLY",
+                  "prflow_state_mkdir": "READONLY",
+                  "prflow_state_modify": "READONLY",
+                  "refs_create": "READONLY",
+                  "slash_tmp_create": "BLOCKED",
+                  "ws_file_create": "WRITABLE"
+                }
+              },
+              "verdict": "PASS"
+            },
+            "exec_positive_control_workspace": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git/worktrees/wt",
+                "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+                "toplevel": "<TMP>/wt"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "READABLE",
+                "alias_proc_root": "READABLE",
+                "alias_symlink_in_ws": "READABLE",
+                "codex_auth": "READABLE/sub:EXIT0",
+                "general_home_file": "READABLE",
+                "gh_hosts": "READABLE/sub:EXIT0",
+                "gnupg_dir": "LISTABLE",
+                "gnupg_key": "READABLE",
+                "meta_common_config": "READABLE",
+                "meta_common_head": "READABLE",
+                "meta_gitfile": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "READABLE",
+                "ssh_dir": "LISTABLE",
+                "ssh_key": "READABLE/sub:EXIT0",
+                "ws_env": "READABLE/sub:EXIT0",
+                "ws_env_nested": "READABLE"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "common_head_modify": "READONLY",
+                "config_modify": "READONLY",
+                "gitfile_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "WRITABLE",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "inherited_mcp_servers": [
+              "prflow_f1_inherited"
+            ],
+            "launch_legacy_sandbox_keys": [],
+            "launch_overrides": [
+              "approval_policy=\"never\"",
+              "features.apps=false",
+              "features.plugins=false",
+              "features.remote_plugin=false",
+              "features.skill_mcp_dependency_install=false",
+              "include_apps_instructions=false",
+              "mcp_servers={}",
+              "web_search=\"disabled\"",
+              "tools.web_search=false",
+              "features.browser_use=false",
+              "features.computer_use=false",
+              "features.image_generation=false",
+              "features.multi_agent=false",
+              "agents.max_depth=0",
+              "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]",
+              "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<COMPARE_RUNTIME_DIR>\"=\"read\",\"<TMP>/ws/.git\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+              "default_permissions=\"prflow_batch\"",
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "mcp_disable_overrides": [
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "permission_profiles": [
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":read-only"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":workspace"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":danger-full-access"
+              },
+              {
+                "allowed": true,
+                "description": "prflow Spike F.1 extends :workspace",
+                "id": "prflow_batch"
+              }
+            ],
+            "preflight": "passed",
+            "thread_start": {
+              "activePermissionProfile": {
+                "extends": ":workspace",
+                "id": "prflow_batch"
+              },
+              "approvalPolicy": "never",
+              "params_sandbox": null,
+              "params_sandboxPolicy": null,
+              "runtimeWorkspaceRoots": [
+                "<TMP>/wt"
+              ],
+              "sandbox": {
+                "excludeSlashTmp": true,
+                "excludeTmpdirEnvVar": true,
+                "networkAccess": false,
+                "type": "workspaceWrite",
+                "writableRoots": []
+              }
+            }
+          },
+          "baseline_workspace": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git/worktrees/wt",
+              "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+              "toplevel": "<TMP>/wt"
+            },
+            "git_write_ops": {
+              "git_config_set": "EXIT255"
+            },
+            "network": "BLOCKED",
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_common_head": "READABLE",
+              "meta_gitfile": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "common_head_modify": "READONLY",
+              "config_modify": "READONLY",
+              "gitfile_modify": "READONLY",
+              "head_modify": "READONLY",
+              "hooks_create": "READONLY",
+              "hooks_modify": "READONLY",
+              "index_modify": "READONLY",
+              "objects_create": "READONLY",
+              "prflow_state_create": "READONLY",
+              "prflow_state_mkdir": "READONLY",
+              "prflow_state_modify": "READONLY",
+              "refs_create": "READONLY",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "codex_sandbox": {
+            "failures": [],
+            "inconclusive": [],
+            "run": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git/worktrees/wt",
+                "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+                "toplevel": "<TMP>/wt"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "BLOCKED",
+                "alias_proc_root": "BLOCKED",
+                "alias_symlink_in_ws": "BLOCKED",
+                "codex_auth": "BLOCKED/sub:BLOCKED",
+                "general_home_file": "MISSING",
+                "gh_hosts": "BLOCKED/sub:BLOCKED",
+                "gnupg_dir": "BLOCKED",
+                "gnupg_key": "BLOCKED",
+                "meta_common_config": "READABLE",
+                "meta_common_head": "READABLE",
+                "meta_gitfile": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "MISSING",
+                "ssh_dir": "BLOCKED",
+                "ssh_key": "BLOCKED/sub:BLOCKED",
+                "ws_env": "BLOCKED/sub:BLOCKED",
+                "ws_env_nested": "BLOCKED"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "common_head_modify": "READONLY",
+                "config_modify": "READONLY",
+                "gitfile_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "BLOCKED",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "verdict": "PASS"
+          },
+          "git_metadata": {
+            "common_dir": "<TMP>/ws/.git",
+            "git_dir": "<TMP>/ws/.git/worktrees/wt",
+            "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+            "toplevel": "<TMP>/wt"
+          },
+          "git_metadata_read_roots": [
+            "<TMP>/ws/.git"
+          ],
+          "necessity_controls": {
+            "without_git_metadata_read_roots": {
+              "git_ops": {
+                "git_diff": "EXIT128",
+                "git_diff_cached": "EXIT128",
+                "git_log": "EXIT128",
+                "git_rev_parse": "EXIT128",
+                "git_show_head": "EXIT128",
+                "git_status": "EXIT128"
+              },
+              "meta_reads": {
+                "meta_common_config": "MISSING",
+                "meta_common_head": "MISSING",
+                "meta_gitfile": "READABLE",
+                "meta_head": "MISSING",
+                "meta_hook_existing": "MISSING",
+                "meta_index": "MISSING",
+                "meta_objects_dir": "MISSING",
+                "meta_prflow_state": "MISSING",
+                "meta_refs_heads_dir": "MISSING"
+              },
+              "ok": true,
+              "reason": null
+            }
+          },
+          "parent_unsandboxed": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git/worktrees/wt",
+              "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+              "toplevel": "<TMP>/wt"
+            },
+            "git_write_ops": {
+              "git_config_set": "OK"
+            },
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_common_head": "READABLE",
+              "meta_gitfile": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "common_head_modify": "WRITABLE",
+              "config_modify": "WRITABLE",
+              "gitfile_modify": "WRITABLE",
+              "head_modify": "WRITABLE",
+              "hooks_create": "WRITABLE",
+              "hooks_modify": "WRITABLE",
+              "index_modify": "WRITABLE",
+              "objects_create": "WRITABLE",
+              "prflow_state_create": "WRITABLE",
+              "prflow_state_mkdir": "WRITABLE",
+              "prflow_state_modify": "WRITABLE",
+              "refs_create": "WRITABLE",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "profile": "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<COMPARE_RUNTIME_DIR>\"=\"read\",\"<TMP>/ws/.git\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}"
+        },
+        "normal": {
+          "app_server": {
+            "active_profile_ok": true,
+            "config_read": {
+              "approval_policy": "never",
+              "default_permissions": "prflow_batch",
+              "profile_extends": ":workspace",
+              "profile_filesystem_keys_extra": [
+                "glob_scan_max_depth"
+              ],
+              "profile_filesystem_keys_match": false,
+              "profile_filesystem_keys_missing": [],
+              "profile_network": {
+                "allow_local_binding": null,
+                "allow_upstream_proxy": null,
+                "dangerously_allow_all_unix_sockets": null,
+                "dangerously_allow_non_loopback_proxy": null,
+                "domains": null,
+                "enable_socks5": null,
+                "enable_socks5_udp": null,
+                "enabled": false,
+                "mitm": null,
+                "mode": null,
+                "proxy_url": null,
+                "socks_url": null,
+                "unix_sockets": null
+              },
+              "profile_present": true,
+              "sandbox_mode": null,
+              "sandbox_workspace_write": null
+            },
+            "exec_config_default": {
+              "failures": [],
+              "inconclusive": [],
+              "run": {
+                "exit_code": 0,
+                "git_ops": {
+                  "git_diff": "OK",
+                  "git_diff_cached": "OK",
+                  "git_log": "OK",
+                  "git_rev_parse": "OK",
+                  "git_show_head": "OK",
+                  "git_status": "OK"
+                },
+                "git_paths": {
+                  "common_dir": "<TMP>/ws/.git",
+                  "git_dir": "<TMP>/ws/.git",
+                  "git_path_prflow": "<TMP>/ws/.git/prflow",
+                  "toplevel": "<TMP>/ws"
+                },
+                "git_write_ops": {
+                  "git_config_set": "EXIT255"
+                },
+                "network": "BLOCKED",
+                "ok": true,
+                "reason": null,
+                "targets": {
+                  "alias_dotdot": "BLOCKED",
+                  "alias_proc_root": "BLOCKED",
+                  "alias_symlink_in_ws": "BLOCKED",
+                  "codex_auth": "BLOCKED/sub:BLOCKED",
+                  "general_home_file": "MISSING",
+                  "gh_hosts": "BLOCKED/sub:BLOCKED",
+                  "gnupg_dir": "BLOCKED",
+                  "gnupg_key": "BLOCKED",
+                  "meta_common_config": "READABLE",
+                  "meta_head": "READABLE",
+                  "meta_hook_existing": "READABLE",
+                  "meta_index": "READABLE",
+                  "meta_objects_dir": "LISTABLE",
+                  "meta_prflow_state": "READABLE",
+                  "meta_refs_heads_dir": "LISTABLE",
+                  "residual_preexisting_hardlink": "READABLE",
+                  "sibling_checkout_file": "MISSING",
+                  "ssh_dir": "BLOCKED",
+                  "ssh_key": "BLOCKED/sub:BLOCKED",
+                  "ws_env": "BLOCKED/sub:BLOCKED",
+                  "ws_env_nested": "BLOCKED"
+                },
+                "uid": 1000,
+                "workspace_ops": {
+                  "git_log": "OK",
+                  "git_status": "OK",
+                  "python_child": "OK",
+                  "read_repo_file": "OK",
+                  "write_read_back": "OK"
+                },
+                "writes": {
+                  "config_modify": "READONLY",
+                  "head_modify": "READONLY",
+                  "hooks_create": "READONLY",
+                  "hooks_modify": "READONLY",
+                  "index_modify": "READONLY",
+                  "objects_create": "READONLY",
+                  "prflow_state_create": "READONLY",
+                  "prflow_state_mkdir": "READONLY",
+                  "prflow_state_modify": "READONLY",
+                  "refs_create": "READONLY",
+                  "slash_tmp_create": "BLOCKED",
+                  "ws_file_create": "WRITABLE"
+                }
+              },
+              "verdict": "PASS"
+            },
+            "exec_positive_control_workspace": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git",
+                "git_path_prflow": "<TMP>/ws/.git/prflow",
+                "toplevel": "<TMP>/ws"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "READABLE",
+                "alias_proc_root": "READABLE",
+                "alias_symlink_in_ws": "READABLE",
+                "codex_auth": "READABLE/sub:EXIT0",
+                "general_home_file": "READABLE",
+                "gh_hosts": "READABLE/sub:EXIT0",
+                "gnupg_dir": "LISTABLE",
+                "gnupg_key": "READABLE",
+                "meta_common_config": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "READABLE",
+                "ssh_dir": "LISTABLE",
+                "ssh_key": "READABLE/sub:EXIT0",
+                "ws_env": "READABLE/sub:EXIT0",
+                "ws_env_nested": "READABLE"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "config_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "WRITABLE",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "inherited_mcp_servers": [
+              "prflow_f1_inherited"
+            ],
+            "launch_legacy_sandbox_keys": [],
+            "launch_overrides": [
+              "approval_policy=\"never\"",
+              "features.apps=false",
+              "features.plugins=false",
+              "features.remote_plugin=false",
+              "features.skill_mcp_dependency_install=false",
+              "include_apps_instructions=false",
+              "mcp_servers={}",
+              "web_search=\"disabled\"",
+              "tools.web_search=false",
+              "features.browser_use=false",
+              "features.computer_use=false",
+              "features.image_generation=false",
+              "features.multi_agent=false",
+              "agents.max_depth=0",
+              "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]",
+              "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<COMPARE_RUNTIME_DIR>\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+              "default_permissions=\"prflow_batch\"",
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "mcp_disable_overrides": [
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "permission_profiles": [
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":read-only"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":workspace"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":danger-full-access"
+              },
+              {
+                "allowed": true,
+                "description": "prflow Spike F.1 extends :workspace",
+                "id": "prflow_batch"
+              }
+            ],
+            "preflight": "passed",
+            "thread_start": {
+              "activePermissionProfile": {
+                "extends": ":workspace",
+                "id": "prflow_batch"
+              },
+              "approvalPolicy": "never",
+              "params_sandbox": null,
+              "params_sandboxPolicy": null,
+              "runtimeWorkspaceRoots": [
+                "<TMP>/ws"
+              ],
+              "sandbox": {
+                "excludeSlashTmp": true,
+                "excludeTmpdirEnvVar": true,
+                "networkAccess": false,
+                "type": "workspaceWrite",
+                "writableRoots": []
+              }
+            }
+          },
+          "baseline_workspace": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git",
+              "git_path_prflow": "<TMP>/ws/.git/prflow",
+              "toplevel": "<TMP>/ws"
+            },
+            "git_write_ops": {
+              "git_config_set": "EXIT255"
+            },
+            "network": "BLOCKED",
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "config_modify": "READONLY",
+              "head_modify": "READONLY",
+              "hooks_create": "READONLY",
+              "hooks_modify": "READONLY",
+              "index_modify": "READONLY",
+              "objects_create": "READONLY",
+              "prflow_state_create": "READONLY",
+              "prflow_state_mkdir": "READONLY",
+              "prflow_state_modify": "READONLY",
+              "refs_create": "READONLY",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "codex_sandbox": {
+            "failures": [],
+            "inconclusive": [],
+            "run": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git",
+                "git_path_prflow": "<TMP>/ws/.git/prflow",
+                "toplevel": "<TMP>/ws"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "BLOCKED",
+                "alias_proc_root": "BLOCKED",
+                "alias_symlink_in_ws": "BLOCKED",
+                "codex_auth": "BLOCKED/sub:BLOCKED",
+                "general_home_file": "MISSING",
+                "gh_hosts": "BLOCKED/sub:BLOCKED",
+                "gnupg_dir": "BLOCKED",
+                "gnupg_key": "BLOCKED",
+                "meta_common_config": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "MISSING",
+                "ssh_dir": "BLOCKED",
+                "ssh_key": "BLOCKED/sub:BLOCKED",
+                "ws_env": "BLOCKED/sub:BLOCKED",
+                "ws_env_nested": "BLOCKED"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "config_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "BLOCKED",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "verdict": "PASS"
+          },
+          "git_metadata": {
+            "common_dir": "<TMP>/ws/.git",
+            "git_dir": "<TMP>/ws/.git",
+            "git_path_prflow": "<TMP>/ws/.git/prflow",
+            "toplevel": "<TMP>/ws"
+          },
+          "git_metadata_read_roots": [],
+          "necessity_controls": {
+            "without_runtime_read_roots": {
+              "ok": false,
+              "reason": "no_begin_sentinel",
+              "stderr_tail": [
+                "bwrap: execvp <COMPARE_RUNTIME_DIR>/bin/codex: No such file or directory"
+              ]
+            },
+            "without_tmp_denies": {
+              "ok": true,
+              "slash_tmp_create": "WRITABLE"
+            }
+          },
+          "parent_unsandboxed": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git",
+              "git_path_prflow": "<TMP>/ws/.git/prflow",
+              "toplevel": "<TMP>/ws"
+            },
+            "git_write_ops": {
+              "git_config_set": "OK"
+            },
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "config_modify": "WRITABLE",
+              "head_modify": "WRITABLE",
+              "hooks_create": "WRITABLE",
+              "hooks_modify": "WRITABLE",
+              "index_modify": "WRITABLE",
+              "objects_create": "WRITABLE",
+              "prflow_state_create": "WRITABLE",
+              "prflow_state_mkdir": "WRITABLE",
+              "prflow_state_modify": "WRITABLE",
+              "refs_create": "WRITABLE",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "profile": "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<COMPARE_RUNTIME_DIR>\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}"
+        }
+      },
+      "codex_bin": "<COMPARE_RUNTIME_DIR>/bin/codex",
+      "codex_version": "0.153.4",
+      "runtime_read_roots": [
+        "<COMPARE_RUNTIME_DIR>"
+      ]
+    },
+    "native": {
+      "checkouts": {
+        "linked_worktree": {
+          "app_server": {
+            "active_profile_ok": true,
+            "config_read": {
+              "approval_policy": "never",
+              "default_permissions": "prflow_batch",
+              "profile_extends": ":workspace",
+              "profile_filesystem_keys_extra": [
+                "glob_scan_max_depth"
+              ],
+              "profile_filesystem_keys_match": false,
+              "profile_filesystem_keys_missing": [],
+              "profile_network": {
+                "allow_local_binding": null,
+                "allow_upstream_proxy": null,
+                "dangerously_allow_all_unix_sockets": null,
+                "dangerously_allow_non_loopback_proxy": null,
+                "domains": null,
+                "enable_socks5": null,
+                "enable_socks5_udp": null,
+                "enabled": false,
+                "mitm": null,
+                "mode": null,
+                "proxy_url": null,
+                "socks_url": null,
+                "unix_sockets": null
+              },
+              "profile_present": true,
+              "sandbox_mode": null,
+              "sandbox_workspace_write": null
+            },
+            "exec_config_default": {
+              "failures": [],
+              "inconclusive": [],
+              "run": {
+                "exit_code": 0,
+                "git_ops": {
+                  "git_diff": "OK",
+                  "git_diff_cached": "OK",
+                  "git_log": "OK",
+                  "git_rev_parse": "OK",
+                  "git_show_head": "OK",
+                  "git_status": "OK"
+                },
+                "git_paths": {
+                  "common_dir": "<TMP>/ws/.git",
+                  "git_dir": "<TMP>/ws/.git/worktrees/wt",
+                  "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+                  "toplevel": "<TMP>/wt"
+                },
+                "git_write_ops": {
+                  "git_config_set": "EXIT255"
+                },
+                "network": "BLOCKED",
+                "ok": true,
+                "reason": null,
+                "targets": {
+                  "alias_dotdot": "BLOCKED",
+                  "alias_proc_root": "BLOCKED",
+                  "alias_symlink_in_ws": "BLOCKED",
+                  "codex_auth": "BLOCKED/sub:BLOCKED",
+                  "general_home_file": "MISSING",
+                  "gh_hosts": "BLOCKED/sub:BLOCKED",
+                  "gnupg_dir": "BLOCKED",
+                  "gnupg_key": "BLOCKED",
+                  "meta_common_config": "READABLE",
+                  "meta_common_head": "READABLE",
+                  "meta_gitfile": "READABLE",
+                  "meta_head": "READABLE",
+                  "meta_hook_existing": "READABLE",
+                  "meta_index": "READABLE",
+                  "meta_objects_dir": "LISTABLE",
+                  "meta_prflow_state": "READABLE",
+                  "meta_refs_heads_dir": "LISTABLE",
+                  "residual_preexisting_hardlink": "READABLE",
+                  "sibling_checkout_file": "MISSING",
+                  "ssh_dir": "BLOCKED",
+                  "ssh_key": "BLOCKED/sub:BLOCKED",
+                  "ws_env": "BLOCKED/sub:BLOCKED",
+                  "ws_env_nested": "BLOCKED"
+                },
+                "uid": 1000,
+                "workspace_ops": {
+                  "git_log": "OK",
+                  "git_status": "OK",
+                  "python_child": "OK",
+                  "read_repo_file": "OK",
+                  "write_read_back": "OK"
+                },
+                "writes": {
+                  "common_head_modify": "READONLY",
+                  "config_modify": "READONLY",
+                  "gitfile_modify": "READONLY",
+                  "head_modify": "READONLY",
+                  "hooks_create": "READONLY",
+                  "hooks_modify": "READONLY",
+                  "index_modify": "READONLY",
+                  "objects_create": "READONLY",
+                  "prflow_state_create": "READONLY",
+                  "prflow_state_mkdir": "READONLY",
+                  "prflow_state_modify": "READONLY",
+                  "refs_create": "READONLY",
+                  "slash_tmp_create": "BLOCKED",
+                  "ws_file_create": "WRITABLE"
+                }
+              },
+              "verdict": "PASS"
+            },
+            "exec_positive_control_workspace": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git/worktrees/wt",
+                "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+                "toplevel": "<TMP>/wt"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "READABLE",
+                "alias_proc_root": "READABLE",
+                "alias_symlink_in_ws": "READABLE",
+                "codex_auth": "READABLE/sub:EXIT0",
+                "general_home_file": "READABLE",
+                "gh_hosts": "READABLE/sub:EXIT0",
+                "gnupg_dir": "LISTABLE",
+                "gnupg_key": "READABLE",
+                "meta_common_config": "READABLE",
+                "meta_common_head": "READABLE",
+                "meta_gitfile": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "READABLE",
+                "ssh_dir": "LISTABLE",
+                "ssh_key": "READABLE/sub:EXIT0",
+                "ws_env": "READABLE/sub:EXIT0",
+                "ws_env_nested": "READABLE"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "common_head_modify": "READONLY",
+                "config_modify": "READONLY",
+                "gitfile_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "WRITABLE",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "inherited_mcp_servers": [
+              "prflow_f1_inherited"
+            ],
+            "launch_legacy_sandbox_keys": [],
+            "launch_overrides": [
+              "approval_policy=\"never\"",
+              "features.apps=false",
+              "features.plugins=false",
+              "features.remote_plugin=false",
+              "features.skill_mcp_dependency_install=false",
+              "include_apps_instructions=false",
+              "mcp_servers={}",
+              "web_search=\"disabled\"",
+              "tools.web_search=false",
+              "features.browser_use=false",
+              "features.computer_use=false",
+              "features.image_generation=false",
+              "features.multi_agent=false",
+              "agents.max_depth=0",
+              "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]",
+              "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"~/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl\"=\"read\",\"<TMP>/ws/.git\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+              "default_permissions=\"prflow_batch\"",
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "mcp_disable_overrides": [
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "permission_profiles": [
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":read-only"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":workspace"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":danger-full-access"
+              },
+              {
+                "allowed": true,
+                "description": "prflow Spike F.1 extends :workspace",
+                "id": "prflow_batch"
+              }
+            ],
+            "preflight": "passed",
+            "thread_start": {
+              "activePermissionProfile": {
+                "extends": ":workspace",
+                "id": "prflow_batch"
+              },
+              "approvalPolicy": "never",
+              "params_sandbox": null,
+              "params_sandboxPolicy": null,
+              "runtimeWorkspaceRoots": [
+                "<TMP>/wt"
+              ],
+              "sandbox": {
+                "excludeSlashTmp": true,
+                "excludeTmpdirEnvVar": true,
+                "networkAccess": false,
+                "type": "workspaceWrite",
+                "writableRoots": []
+              }
+            }
+          },
+          "baseline_workspace": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git/worktrees/wt",
+              "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+              "toplevel": "<TMP>/wt"
+            },
+            "git_write_ops": {
+              "git_config_set": "EXIT255"
+            },
+            "network": "BLOCKED",
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_common_head": "READABLE",
+              "meta_gitfile": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "common_head_modify": "READONLY",
+              "config_modify": "READONLY",
+              "gitfile_modify": "READONLY",
+              "head_modify": "READONLY",
+              "hooks_create": "READONLY",
+              "hooks_modify": "READONLY",
+              "index_modify": "READONLY",
+              "objects_create": "READONLY",
+              "prflow_state_create": "READONLY",
+              "prflow_state_mkdir": "READONLY",
+              "prflow_state_modify": "READONLY",
+              "refs_create": "READONLY",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "codex_sandbox": {
+            "failures": [],
+            "inconclusive": [],
+            "run": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git/worktrees/wt",
+                "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+                "toplevel": "<TMP>/wt"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "BLOCKED",
+                "alias_proc_root": "BLOCKED",
+                "alias_symlink_in_ws": "BLOCKED",
+                "codex_auth": "BLOCKED/sub:BLOCKED",
+                "general_home_file": "MISSING",
+                "gh_hosts": "BLOCKED/sub:BLOCKED",
+                "gnupg_dir": "BLOCKED",
+                "gnupg_key": "BLOCKED",
+                "meta_common_config": "READABLE",
+                "meta_common_head": "READABLE",
+                "meta_gitfile": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "MISSING",
+                "ssh_dir": "BLOCKED",
+                "ssh_key": "BLOCKED/sub:BLOCKED",
+                "ws_env": "BLOCKED/sub:BLOCKED",
+                "ws_env_nested": "BLOCKED"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "common_head_modify": "READONLY",
+                "config_modify": "READONLY",
+                "gitfile_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "BLOCKED",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "verdict": "PASS"
+          },
+          "git_metadata": {
+            "common_dir": "<TMP>/ws/.git",
+            "git_dir": "<TMP>/ws/.git/worktrees/wt",
+            "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+            "toplevel": "<TMP>/wt"
+          },
+          "git_metadata_read_roots": [
+            "<TMP>/ws/.git"
+          ],
+          "necessity_controls": {
+            "without_git_metadata_read_roots": {
+              "git_ops": {
+                "git_diff": "EXIT128",
+                "git_diff_cached": "EXIT128",
+                "git_log": "EXIT128",
+                "git_rev_parse": "EXIT128",
+                "git_show_head": "EXIT128",
+                "git_status": "EXIT128"
+              },
+              "meta_reads": {
+                "meta_common_config": "MISSING",
+                "meta_common_head": "MISSING",
+                "meta_gitfile": "READABLE",
+                "meta_head": "MISSING",
+                "meta_hook_existing": "MISSING",
+                "meta_index": "MISSING",
+                "meta_objects_dir": "MISSING",
+                "meta_prflow_state": "MISSING",
+                "meta_refs_heads_dir": "MISSING"
+              },
+              "ok": true,
+              "reason": null
+            }
+          },
+          "parent_unsandboxed": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git/worktrees/wt",
+              "git_path_prflow": "<TMP>/ws/.git/worktrees/wt/prflow",
+              "toplevel": "<TMP>/wt"
+            },
+            "git_write_ops": {
+              "git_config_set": "OK"
+            },
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_common_head": "READABLE",
+              "meta_gitfile": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "common_head_modify": "WRITABLE",
+              "config_modify": "WRITABLE",
+              "gitfile_modify": "WRITABLE",
+              "head_modify": "WRITABLE",
+              "hooks_create": "WRITABLE",
+              "hooks_modify": "WRITABLE",
+              "index_modify": "WRITABLE",
+              "objects_create": "WRITABLE",
+              "prflow_state_create": "WRITABLE",
+              "prflow_state_mkdir": "WRITABLE",
+              "prflow_state_modify": "WRITABLE",
+              "refs_create": "WRITABLE",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "profile": "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"~/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl\"=\"read\",\"<TMP>/ws/.git\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}"
+        },
+        "normal": {
+          "app_server": {
+            "active_profile_ok": true,
+            "config_read": {
+              "approval_policy": "never",
+              "default_permissions": "prflow_batch",
+              "profile_extends": ":workspace",
+              "profile_filesystem_keys_extra": [
+                "glob_scan_max_depth"
+              ],
+              "profile_filesystem_keys_match": false,
+              "profile_filesystem_keys_missing": [],
+              "profile_network": {
+                "allow_local_binding": null,
+                "allow_upstream_proxy": null,
+                "dangerously_allow_all_unix_sockets": null,
+                "dangerously_allow_non_loopback_proxy": null,
+                "domains": null,
+                "enable_socks5": null,
+                "enable_socks5_udp": null,
+                "enabled": false,
+                "mitm": null,
+                "mode": null,
+                "proxy_url": null,
+                "socks_url": null,
+                "unix_sockets": null
+              },
+              "profile_present": true,
+              "sandbox_mode": null,
+              "sandbox_workspace_write": null
+            },
+            "exec_config_default": {
+              "failures": [],
+              "inconclusive": [],
+              "run": {
+                "exit_code": 0,
+                "git_ops": {
+                  "git_diff": "OK",
+                  "git_diff_cached": "OK",
+                  "git_log": "OK",
+                  "git_rev_parse": "OK",
+                  "git_show_head": "OK",
+                  "git_status": "OK"
+                },
+                "git_paths": {
+                  "common_dir": "<TMP>/ws/.git",
+                  "git_dir": "<TMP>/ws/.git",
+                  "git_path_prflow": "<TMP>/ws/.git/prflow",
+                  "toplevel": "<TMP>/ws"
+                },
+                "git_write_ops": {
+                  "git_config_set": "EXIT255"
+                },
+                "network": "BLOCKED",
+                "ok": true,
+                "reason": null,
+                "targets": {
+                  "alias_dotdot": "BLOCKED",
+                  "alias_proc_root": "BLOCKED",
+                  "alias_symlink_in_ws": "BLOCKED",
+                  "codex_auth": "BLOCKED/sub:BLOCKED",
+                  "general_home_file": "MISSING",
+                  "gh_hosts": "BLOCKED/sub:BLOCKED",
+                  "gnupg_dir": "BLOCKED",
+                  "gnupg_key": "BLOCKED",
+                  "meta_common_config": "READABLE",
+                  "meta_head": "READABLE",
+                  "meta_hook_existing": "READABLE",
+                  "meta_index": "READABLE",
+                  "meta_objects_dir": "LISTABLE",
+                  "meta_prflow_state": "READABLE",
+                  "meta_refs_heads_dir": "LISTABLE",
+                  "residual_preexisting_hardlink": "READABLE",
+                  "sibling_checkout_file": "MISSING",
+                  "ssh_dir": "BLOCKED",
+                  "ssh_key": "BLOCKED/sub:BLOCKED",
+                  "ws_env": "BLOCKED/sub:BLOCKED",
+                  "ws_env_nested": "BLOCKED"
+                },
+                "uid": 1000,
+                "workspace_ops": {
+                  "git_log": "OK",
+                  "git_status": "OK",
+                  "python_child": "OK",
+                  "read_repo_file": "OK",
+                  "write_read_back": "OK"
+                },
+                "writes": {
+                  "config_modify": "READONLY",
+                  "head_modify": "READONLY",
+                  "hooks_create": "READONLY",
+                  "hooks_modify": "READONLY",
+                  "index_modify": "READONLY",
+                  "objects_create": "READONLY",
+                  "prflow_state_create": "READONLY",
+                  "prflow_state_mkdir": "READONLY",
+                  "prflow_state_modify": "READONLY",
+                  "refs_create": "READONLY",
+                  "slash_tmp_create": "BLOCKED",
+                  "ws_file_create": "WRITABLE"
+                }
+              },
+              "verdict": "PASS"
+            },
+            "exec_positive_control_workspace": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git",
+                "git_path_prflow": "<TMP>/ws/.git/prflow",
+                "toplevel": "<TMP>/ws"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "READABLE",
+                "alias_proc_root": "READABLE",
+                "alias_symlink_in_ws": "READABLE",
+                "codex_auth": "READABLE/sub:EXIT0",
+                "general_home_file": "READABLE",
+                "gh_hosts": "READABLE/sub:EXIT0",
+                "gnupg_dir": "LISTABLE",
+                "gnupg_key": "READABLE",
+                "meta_common_config": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "READABLE",
+                "ssh_dir": "LISTABLE",
+                "ssh_key": "READABLE/sub:EXIT0",
+                "ws_env": "READABLE/sub:EXIT0",
+                "ws_env_nested": "READABLE"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "config_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "WRITABLE",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "inherited_mcp_servers": [
+              "prflow_f1_inherited"
+            ],
+            "launch_legacy_sandbox_keys": [],
+            "launch_overrides": [
+              "approval_policy=\"never\"",
+              "features.apps=false",
+              "features.plugins=false",
+              "features.remote_plugin=false",
+              "features.skill_mcp_dependency_install=false",
+              "include_apps_instructions=false",
+              "mcp_servers={}",
+              "web_search=\"disabled\"",
+              "tools.web_search=false",
+              "features.browser_use=false",
+              "features.computer_use=false",
+              "features.image_generation=false",
+              "features.multi_agent=false",
+              "agents.max_depth=0",
+              "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]",
+              "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"~/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+              "default_permissions=\"prflow_batch\"",
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "mcp_disable_overrides": [
+              "mcp_servers.prflow_f1_inherited.enabled=false"
+            ],
+            "permission_profiles": [
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":read-only"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":workspace"
+              },
+              {
+                "allowed": true,
+                "description": null,
+                "id": ":danger-full-access"
+              },
+              {
+                "allowed": true,
+                "description": "prflow Spike F.1 extends :workspace",
+                "id": "prflow_batch"
+              }
+            ],
+            "preflight": "passed",
+            "thread_start": {
+              "activePermissionProfile": {
+                "extends": ":workspace",
+                "id": "prflow_batch"
+              },
+              "approvalPolicy": "never",
+              "params_sandbox": null,
+              "params_sandboxPolicy": null,
+              "runtimeWorkspaceRoots": [
+                "<TMP>/ws"
+              ],
+              "sandbox": {
+                "excludeSlashTmp": true,
+                "excludeTmpdirEnvVar": true,
+                "networkAccess": false,
+                "type": "workspaceWrite",
+                "writableRoots": []
+              }
+            }
+          },
+          "baseline_workspace": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git",
+              "git_path_prflow": "<TMP>/ws/.git/prflow",
+              "toplevel": "<TMP>/ws"
+            },
+            "git_write_ops": {
+              "git_config_set": "EXIT255"
+            },
+            "network": "BLOCKED",
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "config_modify": "READONLY",
+              "head_modify": "READONLY",
+              "hooks_create": "READONLY",
+              "hooks_modify": "READONLY",
+              "index_modify": "READONLY",
+              "objects_create": "READONLY",
+              "prflow_state_create": "READONLY",
+              "prflow_state_mkdir": "READONLY",
+              "prflow_state_modify": "READONLY",
+              "refs_create": "READONLY",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "codex_sandbox": {
+            "failures": [],
+            "inconclusive": [],
+            "run": {
+              "exit_code": 0,
+              "git_ops": {
+                "git_diff": "OK",
+                "git_diff_cached": "OK",
+                "git_log": "OK",
+                "git_rev_parse": "OK",
+                "git_show_head": "OK",
+                "git_status": "OK"
+              },
+              "git_paths": {
+                "common_dir": "<TMP>/ws/.git",
+                "git_dir": "<TMP>/ws/.git",
+                "git_path_prflow": "<TMP>/ws/.git/prflow",
+                "toplevel": "<TMP>/ws"
+              },
+              "git_write_ops": {
+                "git_config_set": "EXIT255"
+              },
+              "network": "BLOCKED",
+              "ok": true,
+              "reason": null,
+              "targets": {
+                "alias_dotdot": "BLOCKED",
+                "alias_proc_root": "BLOCKED",
+                "alias_symlink_in_ws": "BLOCKED",
+                "codex_auth": "BLOCKED/sub:BLOCKED",
+                "general_home_file": "MISSING",
+                "gh_hosts": "BLOCKED/sub:BLOCKED",
+                "gnupg_dir": "BLOCKED",
+                "gnupg_key": "BLOCKED",
+                "meta_common_config": "READABLE",
+                "meta_head": "READABLE",
+                "meta_hook_existing": "READABLE",
+                "meta_index": "READABLE",
+                "meta_objects_dir": "LISTABLE",
+                "meta_prflow_state": "READABLE",
+                "meta_refs_heads_dir": "LISTABLE",
+                "residual_preexisting_hardlink": "READABLE",
+                "sibling_checkout_file": "MISSING",
+                "ssh_dir": "BLOCKED",
+                "ssh_key": "BLOCKED/sub:BLOCKED",
+                "ws_env": "BLOCKED/sub:BLOCKED",
+                "ws_env_nested": "BLOCKED"
+              },
+              "uid": 1000,
+              "workspace_ops": {
+                "git_log": "OK",
+                "git_status": "OK",
+                "python_child": "OK",
+                "read_repo_file": "OK",
+                "write_read_back": "OK"
+              },
+              "writes": {
+                "config_modify": "READONLY",
+                "head_modify": "READONLY",
+                "hooks_create": "READONLY",
+                "hooks_modify": "READONLY",
+                "index_modify": "READONLY",
+                "objects_create": "READONLY",
+                "prflow_state_create": "READONLY",
+                "prflow_state_mkdir": "READONLY",
+                "prflow_state_modify": "READONLY",
+                "refs_create": "READONLY",
+                "slash_tmp_create": "BLOCKED",
+                "ws_file_create": "WRITABLE"
+              }
+            },
+            "verdict": "PASS"
+          },
+          "git_metadata": {
+            "common_dir": "<TMP>/ws/.git",
+            "git_dir": "<TMP>/ws/.git",
+            "git_path_prflow": "<TMP>/ws/.git/prflow",
+            "toplevel": "<TMP>/ws"
+          },
+          "git_metadata_read_roots": [],
+          "necessity_controls": {
+            "without_runtime_read_roots": {
+              "ok": false,
+              "reason": "no_begin_sentinel",
+              "stderr_tail": [
+                "bwrap: execvp ~/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl/bin/codex: No such file or directory"
+              ]
+            },
+            "without_tmp_denies": {
+              "ok": true,
+              "slash_tmp_create": "WRITABLE"
+            }
+          },
+          "parent_unsandboxed": {
+            "exit_code": 0,
+            "git_ops": {
+              "git_diff": "OK",
+              "git_diff_cached": "OK",
+              "git_log": "OK",
+              "git_rev_parse": "OK",
+              "git_show_head": "OK",
+              "git_status": "OK"
+            },
+            "git_paths": {
+              "common_dir": "<TMP>/ws/.git",
+              "git_dir": "<TMP>/ws/.git",
+              "git_path_prflow": "<TMP>/ws/.git/prflow",
+              "toplevel": "<TMP>/ws"
+            },
+            "git_write_ops": {
+              "git_config_set": "OK"
+            },
+            "ok": true,
+            "reason": null,
+            "targets": {
+              "alias_dotdot": "READABLE",
+              "alias_proc_root": "READABLE",
+              "alias_symlink_in_ws": "READABLE",
+              "codex_auth": "READABLE/sub:EXIT0",
+              "general_home_file": "READABLE",
+              "gh_hosts": "READABLE/sub:EXIT0",
+              "gnupg_dir": "LISTABLE",
+              "gnupg_key": "READABLE",
+              "meta_common_config": "READABLE",
+              "meta_head": "READABLE",
+              "meta_hook_existing": "READABLE",
+              "meta_index": "READABLE",
+              "meta_objects_dir": "LISTABLE",
+              "meta_prflow_state": "READABLE",
+              "meta_refs_heads_dir": "LISTABLE",
+              "residual_preexisting_hardlink": "READABLE",
+              "sibling_checkout_file": "READABLE",
+              "ssh_dir": "LISTABLE",
+              "ssh_key": "READABLE/sub:EXIT0",
+              "ws_env": "READABLE/sub:EXIT0",
+              "ws_env_nested": "READABLE"
+            },
+            "uid": 1000,
+            "workspace_ops": {
+              "git_log": "OK",
+              "git_status": "OK",
+              "python_child": "OK",
+              "read_repo_file": "OK",
+              "write_read_back": "OK"
+            },
+            "writes": {
+              "config_modify": "WRITABLE",
+              "head_modify": "WRITABLE",
+              "hooks_create": "WRITABLE",
+              "hooks_modify": "WRITABLE",
+              "index_modify": "WRITABLE",
+              "objects_create": "WRITABLE",
+              "prflow_state_create": "WRITABLE",
+              "prflow_state_mkdir": "WRITABLE",
+              "prflow_state_modify": "WRITABLE",
+              "refs_create": "WRITABLE",
+              "slash_tmp_create": "WRITABLE",
+              "ws_file_create": "WRITABLE"
+            }
+          },
+          "profile": "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"~/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<TMP>/codex-home/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}"
+        }
+      },
+      "codex_bin": "~/.local/bin/codex",
+      "codex_version": "0.154.0",
+      "runtime_read_roots": [
+        "~/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl"
+      ]
+    }
+  },
+  "temp_tree_removed": true
+}

@@ -134,3 +134,6 @@ Spike F (credential-read surface, required before Phase 2) is documented in
 [docs/spikes/0002-credential-read.md](docs/spikes/0002-credential-read.md). Reproduce it with
 `uv run python spikes/spike_f_credential_read.py` (no model turn; add `--live-turn` for one
 short `gpt-5.6-luna`/low batch turn). Its offline tests are in `tests/test_spike_f.py`.
+Amendment F.1 (a profile extending `:workspace`, normal checkout plus linked worktree, no model turn)
+is reproduced with `uv run python spikes/spike_f1_workspace_profile.py [--compare-bin PATH]`. Its
+tests are in `tests/test_spike_f1.py`.

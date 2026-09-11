@@ -4,6 +4,10 @@ Scope: SPEC.md Draft 0.3 §7 Spike F and §22.6 only. No Phase 2 code, no SPEC.m
 product (`src/prflow`) changes, no new dependencies, no GitHub mutations by the probes. The findings apply only to the
 tested host and must not be read as portability claims.
 
+**Status after amendment F.1 (2026-09-11): PARTIAL-ACCEPTED.** F.1 (see
+[Amendment F.1](#amendment-f1-extending-workspace-2026-09-11) below) replaces the allowlist
+recommendation with a profile that extends `:workspace`. The original findings are kept unchanged below.
+
 **Recommendation: PARTIAL.** On the tested runtime, a supported Codex *named permission profile*
 stopped sandboxed tools from reading every known credential store that is present. This holds for
 `codex sandbox`, for app-server `command/exec`, and for a live `gpt-5.6-luna`/low agent tool call on the
@@ -239,3 +243,180 @@ uv run python -m pytest -q                              # 142 passed
 uv run python spikes/spike_f_credential_read.py         # offline; no model turn
 uv run python spikes/spike_f_credential_read.py --live-turn   # + one gpt-5.6-luna/low turn
 ```
+
+## Amendment F.1: extending `:workspace` (2026-09-11)
+
+Scope: `SPIKE_F.1.md` only. There were no product, SPEC, or dependency changes and no live model
+turn. All repositories, canaries and the Codex home were synthetic, and all were removed afterwards.
+
+**Result: PASS on both layouts, both mechanisms, both runtimes tested.** A profile that
+extends `:workspace` works for a normal checkout and for a real linked worktree. Git metadata stays
+readable and cannot be written. For the linked worktree this needs one derived read-only Git
+exception. Recommendation: adopt this profile shape for future Phase 2 batch execution and mark
+Spike F **PARTIAL-ACCEPTED**. The residuals below remain. Stop for design review. Phase 2 is not
+started.
+
+### Profile
+
+Passed as `-c` overrides, exactly as generated. The literal strings are in the evidence under
+`runtimes.*.checkouts.*.profile`.
+
+```
+permissions.prflow_batch={"description"="prflow Spike F.1 extends :workspace","extends"=":workspace",
+  "filesystem"={
+    ":root"="deny", ":minimal"="read",
+    ":tmpdir"="deny", ":slash_tmp"="deny",          # :workspace would make both writable
+    "<codex release dir>"="read",                    # bwrap re-executes the runtime binary
+    "<git common dir>"="read",                       # ONLY when outside the workspace root (derived)
+    ":workspace_roots"={"**/.env"="deny","**/.env.*"="deny"},   # "." = write is inherited
+    "~/.config/gh"="deny","~/.ssh"="deny","~/.gnupg"="deny","~/.codex/auth.json"="deny",
+    "<CODEX_HOME>/auth.json"="deny"},
+  "network"={"enabled"=false}}
+default_permissions="prflow_batch"
+```
+
+The app-server launch is the whole Phase 0 policy minus the legacy `sandbox_mode` /
+`sandbox_workspace_write.network_access` keys (`launch_overrides` in the evidence):
+
+- `approval_policy="never"` and `ApprovalMode.deny_all`;
+- apps, plugins, web, browser, computer use, image generation, and multi-agent disabled;
+- `mcp_servers={}` plus the per-server explicit disable of every inherited server name read via `config/read`;
+- the fail-closed MCP/app preflight on the thread;
+- the `env -u` token strip.
+
+A synthetic inherited server (`prflow_f1_inherited` in the synthetic `CODEX_HOME/config.toml`) was
+discovered, disabled by name, and the preflight passed.
+
+### Git metadata exception: derivation
+
+The parent (unsandboxed) process runs `git rev-parse --path-format=absolute --show-toplevel --git-dir
+--git-common-dir --git-path prflow` in the checkout. From the `--git-dir` and `--git-common-dir`
+results (resolved), it drops any directory at or under the workspace root, because `:workspace`
+already makes it readable and keeps `.git` read-only. It also collapses a directory nested in another
+kept directory. Every remaining directory becomes a `"read"` entry, never `"write"`. It is derived
+per checkout at launch.
+
+Paths actually returned by Git (`<TMP>` = the temporary synthetic tree):
+
+| layout | toplevel | `--git-dir` | `--git-common-dir` | `--git-path prflow` | read exception |
+| --- | --- | --- | --- | --- | --- |
+| normal | `<TMP>/ws` | `<TMP>/ws/.git` | `<TMP>/ws/.git` | `<TMP>/ws/.git/prflow` | none |
+| linked worktree (`.git` is a pointer file) | `<TMP>/wt` | `<TMP>/ws/.git/worktrees/wt` | `<TMP>/ws/.git` | `<TMP>/ws/.git/worktrees/wt/prflow` | `<TMP>/ws/.git` |
+
+Without the exception, every Git command in the linked worktree exits 128 ("not a git repository").
+The metadata then shows as `MISSING`, because `:root` deny hides it, and only the `.git` pointer file
+is readable. With it, the main checkout's working files stay hidden (`sibling_checkout_file`
+`MISSING`). Only the Git directory is exposed, and only for reading.
+
+### Deterministic results
+
+These cover `codex sandbox -P prflow_batch` and app-server `command/exec` with the profile taken from
+`default_permissions` (no model). There are two controls. An unsandboxed parent run on the same
+paths must report every write target `WRITABLE` and `git config` succeeding. A `-P :workspace` /
+`permissionProfile=":workspace"` run must report every credential `READABLE`. Non-mutating write
+checks: open-for-write without writing, create then unlink, mkdir then rmdir, and `git config
+--local` set then section removal (the latter only where the metadata is writable, i.e. the parent).
+
+| check (both layouts) | 0.154.0 sandbox | 0.154.0 app-server | 0.153.4 sandbox | 0.153.4 app-server |
+| --- | --- | --- | --- | --- |
+| workspace write/read-back, new file create, Python child, repo file read | OK | OK | OK | OK |
+| `git status`, `log`, `diff --stat`, `diff --cached`, `show HEAD`, `rev-parse` | OK | OK | OK | OK |
+| Git paths seen inside the sandbox equal the parent's | yes | yes | yes | yes |
+| metadata reads: common `config`, `HEAD` (per-worktree and common), `index`, prflow `state.json`, a hook, `objects/` and `refs/heads/` listings, `.git` pointer file | READABLE | READABLE | READABLE | READABLE |
+| append to `config`, `HEAD`, common `HEAD`, `index`, existing hook, prflow `state.json`, `.git` pointer file | READONLY (EROFS) | same | same | same |
+| create `hooks/pre-commit`, prflow file, prflow `lock.d/`, a ref, an object | READONLY (EROFS) | same | same | same |
+| `git config --local` write | EXIT 255 | same | same | same |
+| create in `/tmp` | BLOCKED (EACCES) | same | same | same |
+| synthetic credential stores, `.env` canaries, symlink / `..` / `/proc/self/root` aliases, subprocess reads | PROTECTED | same | same | same |
+| direct TCP egress | BLOCKED | same | same | same |
+| pre-existing hardlink to a credential | READABLE (known residual) | same | same | same |
+| general home file | MISSING | same | same | same |
+
+Every verdict is `PASS` with no failures and no inconclusive items. Necessity controls (`codex sandbox`, both runtimes):
+
+- without the runtime read root, the run is BROKEN (`bwrap: execvp …/bin/codex: No such file or directory`);
+- without `:tmpdir`/`:slash_tmp` deny, `/tmp` is WRITABLE;
+- without the Git exception, the linked worktree gets Git exit 128.
+
+Effective profile, app-server (both runtimes, both layouts):
+
+- `thread/start` with the public SDK serialization of `thread_start(sandbox=None)` sends
+  `sandbox: null` and no `sandboxPolicy`.
+- The raw response reports `activePermissionProfile = {"id": "prflow_batch", "extends": ":workspace"}`.
+- `runtimeWorkspaceRoots` is the checkout.
+- `config/read` shows:
+  - `default_permissions = "prflow_batch"`;
+  - `sandbox_mode` and `sandbox_workspace_write` both null;
+  - `approval_policy = "never"`;
+  - the profile with `extends = ":workspace"` and `network.enabled = false`;
+  - every filesystem key submitted, plus one runtime-supplied `glob_scan_max_depth` (value not recorded).
+- `permissionProfile/list` lists the profile as allowed.
+- The legacy `sandbox` field still reports `workspaceWrite` (`excludeSlashTmp`/`excludeTmpdirEnvVar` true, no network). As in Spike F, that field is a projection, not evidence of the policy.
+
+The deterministic `codex sandbox` and app-server results agree with each other and with the live
+enforcement already proven in Spike F. No new live turn was justified or spent.
+
+### Runtimes
+
+- `codex-cli 0.154.0`: native standalone install (`~/.codex/packages/standalone/releases/0.154.0-x86_64-unknown-linux-musl`).
+- `codex-cli 0.153.4`: the `openai-codex-cli-bin==0.153.4` wheel (sha256
+  `584ecdbd81b01b3002ecbdddfa009dc8d7bfdbed9c208a0fa8c131a2e337bba6`), extracted to an isolated
+  directory under `~/.cache` and passed with `--compare-bin`. It was not installed into the project
+  environment. SDK 0.147.0 was the client for both.
+- The first 0.153.4 attempt ran the binary from `/tmp` and was **BROKEN**: the `:slash_tmp` deny
+  shadowed the more specific runtime read root (`bwrap: execvp …: Permission denied`). Moving the copy
+  out of `/tmp` fixed it. See the first residual below.
+
+Linux, bubblewrap 0.11.1, git 2.53.0, UID 1000 only. Nothing here proves the profile for the
+eventual Phase 2 SDK/runtime pair and nothing is a portability claim.
+
+### Residuals and limitations (in addition to Spike F's)
+
+- **A read exception beneath a denied parent did not take effect.** A runtime directory under `/tmp`
+  stayed unexecutable despite its more specific `"read"` entry. A *writable workspace root* under
+  `/tmp` did work in a scratch check. Checkouts whose Git common dir, or a runtime install that sits
+  under `/tmp`, `$TMPDIR` or another denied path, will therefore fail closed: Git exits 128 or the
+  sandbox reports BROKEN, rather than exposing anything. The Git common dir case is inferred and
+  was not probed. Phase 2 should diagnose such layouts rather than widen the denies.
+- The Git exception exposes the **whole common dir read-only**. That covers other worktrees'
+  metadata, hooks, the main index and `config`. Credentials embedded in remote URLs in `.git/config`
+  are readable, exactly as in a normal checkout under plain `:workspace`. Nothing in it is writable.
+- The exception is bound to one checkout at launch (config-level profile). This matches prflow's
+  per-worktree session scope. One app-server serving several checkouts was not tested.
+- `/tmp` and `$TMPDIR` are unavailable to tools (`$TMPDIR` was unset in these runs). Git, Python and
+  coreutils did not need them here. Tools that do need a temp dir were not tested.
+- F.1 removes the separate SDK `codex-path` read exception retained by Spike F. The complete
+  deterministic matrix passes with only the selected runtime installation allowed. Additional
+  tools needed by the eventual launcher must justify any further installation-specific read paths.
+- Carried forward unchanged:
+  - the hardlink residual (path-based protection);
+  - platform (Linux/bwrap only);
+  - SDK surface (SDK 0.147.0 has no `permissions` field and drops `activePermissionProfile`; the raw
+    response is needed; presets replace the profile);
+  - runtime version.
+- F.1 did not re-probe the real credential paths or the authenticated control plane. The Spike F
+  results above stand for those.
+
+### Next: Spike B.1 revalidation (required before Phase 2 is enabled)
+
+Against the exact coherent SDK/runtime pair chosen by Spike B.1, run
+`PRFLOW_CODEX_BIN=<runtime> uv run python spikes/spike_f1_workspace_profile.py` (no model). Require all of:
+
+- `PASS` for both layouts and both mechanisms;
+- `activePermissionProfile == {"id": "prflow_batch", "extends": ":workspace"}`;
+- the preflight passing with an inherited server disabled;
+- the three necessity controls behaving as above.
+
+Re-derive the runtime read roots from that runtime's install layout: a wheel install is
+`codex_cli_bin/`, the standalone install is `releases/<version>/`. Also check whether that SDK
+exposes `permissions` / `activePermissionProfile` natively. Re-run the Spike F real-path and live
+checks only if these deterministic results disagree with Spike F.
+
+```bash
+uv run python -m pytest -q                                             # 156 passed
+uv run python spikes/spike_f1_workspace_profile.py [--compare-bin PATH]  # offline; no model turn
+```
+
+Files: `spikes/spike_f1_workspace_profile.py` (harness), `spikes/spike_f_probe.py`
+(v2: opt-in `write_targets` and `git` checks; v1 specs unchanged), `tests/test_spike_f1.py`, and
+`docs/spikes/evidence/spike_f1_workspace_profile.json`. The Spike F evidence file is unchanged.
