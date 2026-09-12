@@ -137,3 +137,8 @@ short `gpt-5.6-luna`/low batch turn). Its offline tests are in `tests/test_spike
 Amendment F.1 (a profile extending `:workspace`, normal checkout plus linked worktree, no model turn)
 is reproduced with `uv run python spikes/spike_f1_workspace_profile.py [--compare-bin PATH]`. Its
 tests are in `tests/test_spike_f1.py`.
+
+Spike B.1 tests the isolated stable SDK 0.154.0 and its own bundled runtime. The
+[report](docs/spikes/0003-stable-sdk-authority.md) records a PARTIAL result: authority and
+isolation checks pass; active-profile verification remains a design decision. Project dependencies
+remain unchanged. See the report for isolated-environment reproduction and offline test commands.

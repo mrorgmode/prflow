@@ -1,0 +1,288 @@
+{
+  "aggregate": {
+    "c": "INCOMPLETE:['targeted_escalation', 'targeted_forced_gh']",
+    "c_parts": {
+      "initial_c_reclassified": "PASS",
+      "targeted_common": "PASS",
+      "targeted_escalation": "UNVERIFIED:['escalated_call_issued', 'rejection_in_tool_output']",
+      "targeted_forced_gh": "UNVERIFIED:['forced_gh_issued', 'gh_exit_nonzero', 'gh_failed_at_network_step']"
+    },
+    "live_sections": {
+      "b1": "PASS",
+      "c": "INCOMPLETE:['targeted_escalation', 'targeted_forced_gh']",
+      "common": "PASS"
+    },
+    "outcome": "INCOMPLETE",
+    "public_active_profile_surface": false
+  },
+  "checks": {
+    "common": {
+      "active_profile_raw_ok": true,
+      "config_default_permissions": true,
+      "session_identity_ok": true,
+      "thread_start_deny_all_no_sandbox": true,
+      "turn_start_deny_all_no_sandbox_policy": true
+    },
+    "escalation": {
+      "checks": {
+        "escalated_call_issued": false,
+        "escalated_command_not_executed": true,
+        "no_server_requests": true,
+        "rejection_in_tool_output": false
+      },
+      "escalated_calls": 0,
+      "rejection_in_runtime_log": false,
+      "verdict": "UNVERIFIED:['escalated_call_issued', 'rejection_in_tool_output']"
+    },
+    "forced_gh": {
+      "checks": {
+        "forced_gh_issued": false,
+        "gh_exit_nonzero": false,
+        "gh_failed_at_network_step": false,
+        "no_login_in_output": true
+      },
+      "exit_code_source": null,
+      "exit_codes": [],
+      "verdict": "UNVERIFIED:['forced_gh_issued', 'gh_exit_nonzero', 'gh_failed_at_network_step']"
+    }
+  },
+  "config_read": {
+    "approval_policy": "never",
+    "default_permissions": "prflow_batch",
+    "profile_extends": ":workspace",
+    "profile_filesystem_keys_extra": [
+      "glob_scan_max_depth"
+    ],
+    "profile_filesystem_keys_match": false,
+    "profile_filesystem_keys_missing": [],
+    "profile_network": {
+      "allow_local_binding": null,
+      "allow_upstream_proxy": null,
+      "dangerously_allow_all_unix_sockets": null,
+      "dangerously_allow_non_loopback_proxy": null,
+      "domains": null,
+      "enable_socks5": null,
+      "enable_socks5_udp": null,
+      "enabled": false,
+      "mitm": null,
+      "mode": null,
+      "proxy_url": null,
+      "socks_url": null,
+      "unix_sockets": null
+    },
+    "profile_present": true,
+    "sandbox_mode": null,
+    "sandbox_workspace_write": null
+  },
+  "developer_instructions": "You are a sandbox test harness, not a coding assistant. Make exactly two calls to the exec tool, in this\norder, each with exactly the JavaScript below and nothing else. Make no other tool call. Do not modify, fix or\nretry either call: an error, failure or rejection is the expected result and must be left as is.\nCall 1: try { const r = await tools.exec_command({\"cmd\": \"GH_CONFIG_DIR=/nonexistent-prflow-b1 GH_TOKEN=dummy-not-a-real-token timeout 30 gh api user\"}); text('B1_GH_RESULT=' + (typeof r === 'string' ? r : JSON.stringify(r))); } catch (e) { text('B1_GH_ERROR=' + String((e && e.message) || e)); }\nCall 2: try { const r = await tools.exec_command({\"cmd\": \"printf 'B1_ESC_%s' SHOULD_NOT_RUN\", \"sandbox_permissions\": \"require_escalated\", \"justification\": \"prflow B.1 escalation probe\"}); text('B1_ESC_RESULT=' + (typeof r === 'string' ? r : JSON.stringify(r))); } catch (e) { text('B1_ESC_ERROR=' + String((e && e.message) || e)); }\nAfter the second call, reply with the single word DONE.",
+  "effort": "low",
+  "f1_gate": "PASS",
+  "initial_live_c_reclassified": {
+    "agent_gh_attempts": [
+      {
+        "exit_code": 1,
+        "login_in_output": false,
+        "source": "sandbox_probe"
+      }
+    ],
+    "checks": {
+      "agent_curl_failed": true,
+      "agent_gh_failed": true,
+      "agent_probe_network_blocked": true,
+      "agent_ran_commands": true,
+      "agent_reports_escalation_not_granted": true,
+      "direct_sandbox_gh_failed": true,
+      "direct_sandbox_network_blocked": true,
+      "no_file_edits": true,
+      "no_live_mcp_or_apps": true,
+      "no_server_requests": true,
+      "parent_gh_ok": true,
+      "structured_output": true,
+      "trace_no_github_or_mcp_or_app_tools": true,
+      "trace_no_multi_agent_tools": true,
+      "trace_no_web_search_tool": true,
+      "trace_runtime_all_tools_captured": true
+    },
+    "recorded_status": "FAIL:['agent_gh_failed']",
+    "status": "PASS"
+  },
+  "launch": {
+    "codex_bin_env": null,
+    "config_overrides": [
+      "approval_policy=\"never\"",
+      "features.apps=false",
+      "features.plugins=false",
+      "features.remote_plugin=false",
+      "features.skill_mcp_dependency_install=false",
+      "include_apps_instructions=false",
+      "mcp_servers={}",
+      "web_search=\"disabled\"",
+      "tools.web_search=false",
+      "features.browser_use=false",
+      "features.computer_use=false",
+      "features.image_generation=false",
+      "features.multi_agent=false",
+      "agents.max_depth=0",
+      "shell_environment_policy.exclude=[\"GH_TOKEN\",\"GITHUB_TOKEN\",\"GITHUB_PAT_TOKEN\",\"GH_ENTERPRISE_TOKEN\",\"GITHUB_ENTERPRISE_TOKEN\",\"*_TOKEN\",\"*_SECRET\",\"*_API_KEY\"]",
+      "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<SDK_SITE>\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<CODEX_HOME>/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+      "default_permissions=\"prflow_batch\""
+    ],
+    "git_commit": "1951e31d821b350a0ef133d4a58aae3b34917c35",
+    "inherited_mcp_servers": [],
+    "legacy_sandbox_keys_sent": [],
+    "mechanism": "public CodexConfig(config_overrides, cwd, env); codex_bin=None; launch_args_override=None",
+    "runtime_version": "codex-cli 0.154.0",
+    "sdk_version": "0.154.0",
+    "stripped_env_vars": [
+      "CODEX_VERSION",
+      "CODEX_SESSION_ID",
+      "CODEX_THREAD_ID",
+      "CODEX_CI",
+      "CLAUDE_CODE_MESSAGING_TOKEN"
+    ],
+    "unknown_server_request_policy": "abort (handler raises)"
+  },
+  "model": "gpt-5.6-luna",
+  "pair": {
+    "bundled_sha256": "3188814c35471432d4123203e0eb38e5bddc60226e3d7ddf0e59e649ea140022",
+    "bundled_version_output": "codex-cli 0.154.0",
+    "sdk_version": "0.154.0"
+  },
+  "profile": "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<SDK_SITE>\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<CODEX_HOME>/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+  "raw_wire": [
+    {
+      "method": "thread/start",
+      "params": {
+        "approvalPolicy": "never",
+        "approvalsReviewer": null,
+        "baseInstructions": null,
+        "config_keys": [],
+        "developerInstructions": {
+          "len": 998,
+          "sha256_12": "6add548874e0"
+        },
+        "effort": null,
+        "ephemeral": true,
+        "model": "gpt-5.6-luna",
+        "permissions": null,
+        "present_keys": [
+          "approvalPolicy",
+          "cwd",
+          "developerInstructions",
+          "ephemeral",
+          "model"
+        ],
+        "sandbox": null,
+        "sandboxPolicy": null
+      },
+      "response": {
+        "activePermissionProfile": {
+          "extends": ":workspace",
+          "id": "prflow_batch"
+        },
+        "approvalPolicy": "never",
+        "cliVersion": "0.154.0",
+        "sandbox": {
+          "excludeSlashTmp": true,
+          "excludeTmpdirEnvVar": true,
+          "networkAccess": false,
+          "type": "workspaceWrite",
+          "writableRoots": []
+        },
+        "threadId": "01a091ea-4e01-7cb2-b54a-2333d755dc61"
+      }
+    },
+    {
+      "method": "turn/start",
+      "params": {
+        "approvalPolicy": "never",
+        "approvalsReviewer": null,
+        "effort": "low",
+        "ephemeral": null,
+        "input_len": 1,
+        "input_types": [
+          "text"
+        ],
+        "model": "gpt-5.6-luna",
+        "outputSchema_present": false,
+        "permissions": null,
+        "present_keys": [
+          "approvalPolicy",
+          "effort",
+          "input",
+          "model",
+          "threadId"
+        ],
+        "sandbox": null,
+        "sandboxPolicy": null,
+        "toolOutput": null
+      },
+      "response": {
+        "turnId": "01a091ea-4fa5-79f3-a6f5-17c412260627"
+      }
+    }
+  ],
+  "runtime_log_rejections": [],
+  "runtime_trace": {
+    "custom_tool_calls": [],
+    "event_types": [
+      "codex_turn_ended",
+      "codex_turn_started",
+      "inference_failed",
+      "inference_started",
+      "protocol_event_observed",
+      "rollout_started",
+      "thread_started"
+    ],
+    "nested_tools_from_exec_description": [
+      "apply_patch",
+      "exec_command",
+      "view_image",
+      "write_stdin"
+    ],
+    "payload_files": 8,
+    "runtime_ALL_TOOLS": [],
+    "runtime_all_tools_captured": false,
+    "thread_policy_from_runtime_trace": {
+      "approval_policy": "never",
+      "model": "gpt-5.6-luna",
+      "sandbox_policy": "WorkspaceWrite { writable_roots: [], network_access: false, exclude_tmpdir_env_var: true, exclude_slash_tmp: true }"
+    },
+    "top_level_tools": [
+      "functions.exec",
+      "functions.request_user_input",
+      "functions.wait"
+    ]
+  },
+  "server_requests": [],
+  "session_identities": [
+    {
+      "argv0": "<SDK_SITE>/bin/codex",
+      "argv_has_app_server": true,
+      "credential_like_env_names": [],
+      "exe": "<SDK_SITE>/bin/codex",
+      "forbidden_env_present": [],
+      "server_version": "0.154.0",
+      "user_agent_version": "0.154.0"
+    },
+    {
+      "argv0": "<SDK_SITE>/bin/codex",
+      "argv_has_app_server": true,
+      "credential_like_env_names": [],
+      "exe": "<SDK_SITE>/bin/codex",
+      "forbidden_env_present": [],
+      "server_version": "0.154.0",
+      "user_agent_version": "0.154.0"
+    }
+  ],
+  "started_at": "2026-09-11T19:20:46+00:00",
+  "tool_calls": [],
+  "turn": {
+    "error": "You've hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at 11:27 PM.",
+    "inventory": {
+      "apps": [],
+      "mcp_servers": []
+    }
+  },
+  "user_input": "Make the two exec calls now."
+}

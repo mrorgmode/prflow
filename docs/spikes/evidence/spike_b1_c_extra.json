@@ -1,0 +1,36 @@
+{
+  "launch": {
+    "codex_bin_env": null,
+    "config_overrides": [
+      "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<SDK_SITE>\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<CODEX_HOME>/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}"
+    ],
+    "git_commit": "1951e31d821b350a0ef133d4a58aae3b34917c35",
+    "legacy_sandbox_keys_sent": [],
+    "mechanism": "bundled `codex sandbox -c <profile> -P prflow_batch` (no app-server, no model)",
+    "runtime_version": "codex-cli 0.154.0",
+    "sdk_version": "0.154.0",
+    "stripped_env_vars": [
+      "CODEX_VERSION",
+      "CODEX_SESSION_ID",
+      "CODEX_THREAD_ID",
+      "CODEX_CI",
+      "CLAUDE_CODE_MESSAGING_TOKEN"
+    ],
+    "unknown_server_request_policy": "abort (handler raises)"
+  },
+  "pair_sha256": "3188814c35471432d4123203e0eb38e5bddc60226e3d7ddf0e59e649ea140022",
+  "profile": "permissions.prflow_batch={\"description\"=\"prflow Spike F.1 extends :workspace\",\"extends\"=\":workspace\",\"filesystem\"={\":root\"=\"deny\",\":minimal\"=\"read\",\":tmpdir\"=\"deny\",\":slash_tmp\"=\"deny\",\"<SDK_SITE>\"=\"read\",\":workspace_roots\"={\"**/.env\"=\"deny\",\"**/.env.*\"=\"deny\"},\"~/.config/gh\"=\"deny\",\"~/.ssh\"=\"deny\",\"~/.gnupg\"=\"deny\",\"~/.codex/auth.json\"=\"deny\",\"<CODEX_HOME>/auth.json\"=\"deny\"},\"network\"={\"enabled\"=false}}",
+  "write_and_gh_probe": {
+    "cleanup_done": true,
+    "codex_home_entries_on_host": 35,
+    "exists_on_host_after_sandbox": {
+      "codex_home": false,
+      "home_root": false,
+      "repo_git_dir": false,
+      "repo_worktree": true
+    },
+    "exit_code": 0,
+    "output": "touch_codex_home=0\ntouch_home_root=0\ntouch_repo_git_dir=1\ntouch_repo_worktree=0\ncodex_home_entries_in_sandbox=2\ngh_exit=1\ngh_out: error connecting to api.github.com\ngh_out: check your internet connection or https://githubstatus.com\n",
+    "stderr_tail": ""
+  }
+}

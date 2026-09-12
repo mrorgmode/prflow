@@ -283,17 +283,18 @@ def config_summary(cfg: JsonObject, profile: JsonObject) -> JsonObject:
     }
 
 
-def app_server_session(codex_bin: Path, co: Path, profile: JsonObject, env: dict[str, str], spec: str, targets: list[JsonObject], writes: list[JsonObject], parent: sf.ProbeRun, expected: dict[str, str]) -> JsonObject:
+def app_server_session(codex_bin: Path, co: Path, profile: JsonObject, env: dict[str, str], spec: str, targets: list[JsonObject], writes: list[JsonObject], parent: sf.ProbeRun, expected: dict[str, str], opener: Any = sf.open_batch_codex) -> JsonObject:
+    """``opener(codex_bin, overrides, cwd, env)`` launches the app-server; Spike B.1 passes a public-config launcher."""
     overrides = sf.profile_batch_overrides(profile)
     out: JsonObject = {"launch_legacy_sandbox_keys": [kv.split("=", 1)[0] for kv in overrides if kv.split("=", 1)[0] in sf.LEGACY_SANDBOX_KEYS]}
     try:
         # Phase 0: inherited MCP names from a first launch, then relaunch with explicit disables.
-        with sf.open_batch_codex(codex_bin, overrides, co, env) as codex:
+        with opener(codex_bin, overrides, co, env) as codex:
             cfg = codex.rpc("config/read", {"cwd": str(co), "includeLayers": False}).get("config", {})
         names = sorted((cfg.get("mcp_servers") or {}).keys())
         disables = disable_overrides_for(names)
         out.update(inherited_mcp_servers=names, mcp_disable_overrides=list(disables), launch_overrides=[*overrides, *disables])
-        with sf.open_batch_codex(codex_bin, (*overrides, *disables), co, env) as codex:
+        with opener(codex_bin, (*overrides, *disables), co, env) as codex:
             cfg = codex.rpc("config/read", {"cwd": str(co), "includeLayers": False}).get("config", {})
             out["config_read"] = config_summary(cfg, profile)
             out["permission_profiles"] = sf.profile_list(codex, co)
@@ -319,7 +320,7 @@ def sandbox_run(codex_bin: Path, profile: JsonObject, co: Path, spec: str, env: 
     return checked(sf.run_codex_sandbox(codex_bin, sf.PROFILE_ID, (sf.profile_override(profile),), co, spec, env))
 
 
-def run_runtime(codex_bin: Path, lay: F1Layout) -> JsonObject:
+def run_runtime(codex_bin: Path, lay: F1Layout, opener: Any = sf.open_batch_codex) -> JsonObject:
     # Only the selected runtime installation is required by these probes.
     roots = (codex_bin.resolve().parent.parent,)
     env = sf.minimal_env(lay.home, lay.codex_home)
@@ -353,7 +354,7 @@ def run_runtime(codex_bin: Path, lay: F1Layout) -> JsonObject:
             r = sandbox_run(codex_bin, build_workspace_profile(codex_home=lay.codex_home, runtime_read_roots=roots, deny_tmp=False), co, spec, env)
             necessity["without_tmp_denies"] = {"ok": r.ok, "slash_tmp_create": write_status(r, "slash_tmp_create")}
         entry["necessity_controls"] = necessity
-        entry["app_server"] = app_server_session(codex_bin, co, profile, app_env, spec, targets, writes, parent, meta)
+        entry["app_server"] = app_server_session(codex_bin, co, profile, app_env, spec, targets, writes, parent, meta, opener)
         out["checkouts"][name] = entry
     return out
 
