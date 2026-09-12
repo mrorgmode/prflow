@@ -1,6 +1,6 @@
 # Working preferences
 
-- Phase 1 is accepted. Current authorized scope: SPEC.md Draft 0.3 Spike F (credential-read surface) only. Do not implement Phase 2, modify SPEC.md without explicit approval, or build container/VM/custom sandbox management. Keep experimental compatibility code out of product architecture.
+- Phase 1 is accepted. Spike F.1 is accepted as PARTIAL-ACCEPTED. Current authorized scope: SPIKE_B.1.md only (stable SDK/runtime authority and isolation verification). Do not implement Phase 2, modify SPEC.md without explicit approval, or build container/VM/custom sandbox management. Keep experimental compatibility code out of product architecture.
 - Codex acts as project manager and delegates substantial work to the logged-in Claude CLI to conserve the user's limited Codex quota.
 - User's model preference: Fable for hard tasks, Opus for less hard tasks, then Sonnet. Avoid Haiku except for trivial tasks.
 - For Claude batch runs, explicitly choose effort (usually `--effort medium`) and ALWAYS pass `--disallowedTools "Agent"` to prevent expensive nested agents. Pass bounded prompts via stdin. Restrict permissions/tools to the task.
